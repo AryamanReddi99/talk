@@ -1,0 +1,32 @@
+{"time":"2026-05-27T16:42:51.295309961+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-27T16:42:51.295431056+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-05-27T16:42:51.546491192+02:00","level":"INFO","msg":"stream: created new stream","id":"4lm48n01"}
+{"time":"2026-05-27T16:42:51.546567726+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-27T16:42:51.546653838+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-27T16:42:51.546702855+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-27T16:42:51.546703711+02:00","level":"INFO","msg":"writer: started","stream_id":"4lm48n01"}
+{"time":"2026-05-27T16:42:52.022056454+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-05-27T16:42:57.42321954+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-05-27T16:42:57.641794544+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:43:12.424008204+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":0,"history_lines":1,"events_offset":0,"events_lines":2,"uploaded_len":2}
+{"time":"2026-05-27T16:43:12.628577795+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:43:27.423726846+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":1,"history_lines":19,"events_offset":2,"events_lines":2}
+{"time":"2026-05-27T16:43:27.626667548+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:43:42.423851118+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":20,"history_lines":20,"events_offset":4,"events_lines":2}
+{"time":"2026-05-27T16:43:42.631360563+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:43:57.423682521+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":40,"history_lines":19,"events_offset":6,"events_lines":2}
+{"time":"2026-05-27T16:43:57.673780237+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:44:12.423662505+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":59,"history_lines":19,"events_offset":8,"events_lines":2}
+{"time":"2026-05-27T16:44:12.678995666+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:44:27.42336843+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":78,"history_lines":20,"events_offset":10,"events_lines":2}
+{"time":"2026-05-27T16:44:27.631842757+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:44:42.423509296+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":98,"history_lines":19,"events_offset":12,"events_lines":2}
+{"time":"2026-05-27T16:44:42.643109184+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:44:46.822013147+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-05-27T16:44:46.822100245+02:00","level":"INFO","msg":"filestream: sending request","total_files":2,"history_offset":117,"history_lines":5,"uploaded_len":2,"complete":true,"exit_code":0}
+{"time":"2026-05-27T16:44:47.027498269+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:44:47.028040722+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-27T16:44:47.029581244+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-27T16:44:47.029585827+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-27T16:44:47.029617635+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-27T16:44:47.029619926+02:00","level":"INFO","msg":"stream: all finished"}

@@ -1,0 +1,4 @@
+- use_wandb=true
+- total_timesteps=8192
+- num_seeds=1
+- num_envs=32

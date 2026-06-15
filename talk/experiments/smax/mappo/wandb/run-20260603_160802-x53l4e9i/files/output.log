@@ -1,0 +1,42 @@
+Compiling MAPPO SMAX...
+Running...
+ERROR:2026-06-03 16:08:13,558:jax._src.callback:501: jax.io_callback failed
+Traceback (most recent call last):
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 499, in io_callback_impl
+    return tree_util.tree_map(np.asarray, callback(*args))
+                                          ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 71, in __call__
+    return tree_util.tree_leaves(self.callback_func(*args, **kwargs))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/experiments/smax/mappo/mappo.py", line 405, in _log_callback
+    LOGGER.log(int(exp_id), payload, step=int(env_step))
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 329, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 387, in wrapper_fn
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 374, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Run.log() got multiple values for argument 'step'
+[2026-06-03 16:08:13,558][jax._src.callback][ERROR] - jax.io_callback failed
+Traceback (most recent call last):
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 499, in io_callback_impl
+    return tree_util.tree_map(np.asarray, callback(*args))
+                                          ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 71, in __call__
+    return tree_util.tree_leaves(self.callback_func(*args, **kwargs))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/experiments/smax/mappo/mappo.py", line 405, in _log_callback
+    LOGGER.log(int(exp_id), payload, step=int(env_step))
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 329, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 387, in wrapper_fn
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 374, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Run.log() got multiple values for argument 'step'

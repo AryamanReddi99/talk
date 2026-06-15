@@ -1,0 +1,1 @@
+{"_wandb":{"runtime":216},"ratio":1.000000238418579,"total_loss":0.0002855016791727394,"entropy":0.3049348294734955,"env_step":9.986048e+06,"returns":2,"value_loss":0.0002836111525539309,"_timestamp":1.7809133216060894e+09,"_runtime":216.674360641,"actor_loss":1.8905152501247358e-06,"_step":9986048,"win_rate":1,"clip_frac":0,"approx_kl":7.051177419725718e-08,"ratio_0":1}

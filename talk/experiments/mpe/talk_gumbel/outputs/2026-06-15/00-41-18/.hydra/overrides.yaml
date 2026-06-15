@@ -1,0 +1,6 @@
+- total_timesteps=1.0e6
+- num_seeds=3
+- use_wandb=false
+- log_rollout_videos=false
+- sight_range=0.5
+- min_msg_len=1

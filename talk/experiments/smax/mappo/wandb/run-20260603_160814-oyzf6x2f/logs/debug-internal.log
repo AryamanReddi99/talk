@@ -1,0 +1,18 @@
+{"time":"2026-06-03T16:08:14.704196969+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-03T16:08:14.7042621+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-06-03T16:08:14.95572967+02:00","level":"INFO","msg":"stream: created new stream","id":"oyzf6x2f"}
+{"time":"2026-06-03T16:08:14.955834799+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-03T16:08:14.955899021+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-03T16:08:14.955901374+02:00","level":"INFO","msg":"writer: started","stream_id":"oyzf6x2f"}
+{"time":"2026-06-03T16:08:14.95590929+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-03T16:08:15.486475273+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-06-03T16:08:15.536651508+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"console_offset":0,"console_lines":1}
+{"time":"2026-06-03T16:08:15.839641514+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-03T16:08:26.523042413+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-06-03T16:08:26.523178562+02:00","level":"INFO","msg":"filestream: sending request","total_files":2,"console_offset":1,"console_lines":41,"uploaded_len":6,"complete":true,"exit_code":0}
+{"time":"2026-06-03T16:08:26.74353981+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-06-03T16:08:26.744307755+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-06-03T16:08:26.745692086+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-06-03T16:08:26.745699527+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-06-03T16:08:26.745735971+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-06-03T16:08:26.745739023+02:00","level":"INFO","msg":"stream: all finished"}

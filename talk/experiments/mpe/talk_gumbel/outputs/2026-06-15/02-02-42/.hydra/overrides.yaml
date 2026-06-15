@@ -1,0 +1,6 @@
+- sight_range=0.5
+- num_seeds=3
+- log_rollout_videos=false
+- min_msg_len=1
+- gumbel_tau=0.5
+- talk_config=h2h1_minlen1_tau0.5

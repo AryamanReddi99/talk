@@ -1,0 +1,5 @@
+- sight_range=-1.0
+- num_seeds=3
+- log_rollout_videos=false
+- min_msg_len=1
+- talk_config=sweep_minlen1

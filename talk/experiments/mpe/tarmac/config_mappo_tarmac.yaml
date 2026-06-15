@@ -1,0 +1,47 @@
+# Team-shared MAPPO + TarMAC on JaxMARL MPE
+total_timesteps: 1.0e7
+num_envs: 128
+num_steps_per_env_per_update: 64
+num_epochs: 4
+num_minibatches: 4
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+scale_clip_eps: false
+ent_coef: 0.01
+vf_coef: 0.5
+activation: relu
+fc_dim_size: 128
+gru_hidden_size: 128
+
+# TarMAC message dims (paper defaults: sig=16, val=32)
+sig_dim: 16
+val_dim: 32
+trajectory_scan_unroll: 8
+
+# -1 = unlimited ally comm; otherwise Euclidean radius in MPE world units
+comm_range: -1
+
+lr_actor: 5.0e-4
+lr_critic: 1.0e-3
+anneal_lr: true
+max_grad_norm: 0.5
+
+seed: 0
+num_seeds: 3
+
+project: talk
+environment: mpe
+env_name: MPE_simple_spread_v3
+env_kwargs: {}
+num_agents: null
+sight_range: -1.0
+algorithm: mappo_tarmac_mpe
+custom_name: "_new_mpe"
+use_wandb: true
+
+log_rollout_videos: true
+log_rollout_fractions: [0.0, 0.33, 0.66, 1.0]
+rollout_length_multiplier: 1.0
+rollout_eval_seed: 0

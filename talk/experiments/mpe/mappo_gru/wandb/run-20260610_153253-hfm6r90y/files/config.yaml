@@ -1,0 +1,126 @@
+_wandb:
+    value:
+        cli_version: 0.27.0
+        code_path: code/mappo_gru.py
+        e:
+            d3sjhb7fjuolrk5be5f5tiih3c0xe8xb:
+                args:
+                    - sight_range=1.0
+                codePath: mappo_gru.py
+                codePathLocal: mappo_gru.py
+                cpu_count: 16
+                cpu_count_logical: 24
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "1006450962432"
+                        used: "511161524224"
+                email: aryaman.reddi@tu-darmstadt.de
+                executable: /home/aryaman/anaconda3/envs/talk/bin/python
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8704
+                      memoryTotal: "10737418240"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-e3bd5842-c88e-7005-bedb-5e83370db552
+                host: Nash
+                memory:
+                    total: "33484742656"
+                os: Linux-6.8.0-124-generic-x86_64-with-glibc2.39
+                program: /home/aryaman/Desktop/project-talk/talk/experiments/mpe/mappo_gru/mappo_gru.py
+                python: CPython 3.12.13
+                root: /home/aryaman/Desktop/project-talk/talk/experiments/mpe/mappo_gru
+                startedAt: "2026-06-10T13:32:53.340152Z"
+                writerId: d3sjhb7fjuolrk5be5f5tiih3c0xe8xb
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 12
+                - 45
+                - 50
+            "2":
+                - 12
+                - 45
+                - 50
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.27.0
+            "12": 0.27.0
+            "13": linux-x86_64
+activation:
+    value: relu
+algorithm:
+    value: mappo_gru_mpe
+anneal_lr:
+    value: true
+clip_eps:
+    value: 0.2
+custom_name:
+    value: ""
+ent_coef:
+    value: 0.01
+env_name:
+    value: MPE_simple_spread_v3
+environment:
+    value: mpe
+fc_dim_size:
+    value: 128
+gae_lambda:
+    value: 0.95
+gamma:
+    value: 0.99
+gru_hidden_size:
+    value: 128
+log_rollout_fractions:
+    value:
+        - 0
+        - 0.33
+        - 0.66
+        - 1
+log_rollout_videos:
+    value: true
+lr_actor:
+    value: 0.0005
+lr_critic:
+    value: 0.001
+max_grad_norm:
+    value: 0.5
+num_agents:
+    value: null
+num_envs:
+    value: 128
+num_epochs:
+    value: 10
+num_gradient_steps:
+    value: 97600
+num_minibatches:
+    value: 8
+num_seeds:
+    value: 3
+num_steps_per_env_per_update:
+    value: 64
+num_update_steps:
+    value: 1220
+project:
+    value: talk
+rollout_eval_seed:
+    value: 0
+rollout_length_multiplier:
+    value: 1
+seed:
+    value: 0
+sight_range:
+    value: 1
+total_timesteps:
+    value: 1e+07
+trajectory_scan_unroll:
+    value: 8
+use_wandb:
+    value: true

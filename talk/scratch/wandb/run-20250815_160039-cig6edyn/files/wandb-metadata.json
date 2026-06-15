@@ -1,0 +1,42 @@
+{
+  "os": "Linux-6.8.0-59-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-08-15T14:00:39.678017Z",
+  "program": "/home/aryaman/Desktop/project-optimize/optimize/optimize/scratch/test_wandb_log.py",
+  "codePath": "optimize/scratch/test_wandb_log.py",
+  "git": {
+    "remote": "https://github.com/AryamanReddi99/optimize.git",
+    "commit": "d357b3aff01ec446dceb1dd67ff557a4c5bf9b8d"
+  },
+  "email": "aryaman.reddi@tu-darmstadt.de",
+  "root": "/home/aryaman/Desktop/project-optimize/optimize/optimize/scratch",
+  "host": "Nash",
+  "executable": "/home/aryaman/anaconda3/envs/cheap/bin/python",
+  "codePathLocal": "test_wandb_log.py",
+  "cpu_count": 16,
+  "cpu_count_logical": 24,
+  "gpu": "NVIDIA GeForce RTX 3080",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "1006450962432",
+      "used": "444220575744"
+    }
+  },
+  "memory": {
+    "total": "33484800000"
+  },
+  "cpu": {
+    "count": 16,
+    "countLogical": 24
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 3080",
+      "memoryTotal": "10737418240",
+      "cudaCores": 8704,
+      "architecture": "Ampere"
+    }
+  ],
+  "cudaVersion": "12.8"
+}

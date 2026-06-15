@@ -1,0 +1,24 @@
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_setup.py:_flush():81] Current SDK version is 0.27.0
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_setup.py:_flush():81] Configure stats pid to 747683
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /home/aryaman/Desktop/project-talk/talk/experiments/mpe/mappo_gru/wandb/run-20260610_144139-dyhqt2i4/logs/debug.log
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /home/aryaman/Desktop/project-talk/talk/experiments/mpe/mappo_gru/wandb/run-20260610_144139-dyhqt2i4/logs/debug-internal.log
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_init.py:init():851] calling init triggers
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_init.py:init():856] wandb.init called with sweep_config: {}
+config: {'total_timesteps': 10000000.0, 'num_envs': 128, 'num_steps_per_env_per_update': 64, 'num_epochs': 10, 'num_minibatches': 8, 'gamma': 0.99, 'gae_lambda': 0.95, 'clip_eps': 0.2, 'ent_coef': 0.01, 'activation': 'relu', 'fc_dim_size': 128, 'gru_hidden_size': 128, 'trajectory_scan_unroll': 8, 'lr_actor': 0.0005, 'lr_critic': 0.001, 'anneal_lr': True, 'max_grad_norm': 0.5, 'seed': 0, 'num_seeds': 3, 'project': 'talk', 'environment': 'mpe', 'env_name': 'MPE_simple_spread_v3', 'env_kwargs': {}, 'num_agents': None, 'sight_range': 0.25, 'algorithm': 'mappo_gru_mpe', 'custom_name': '', 'use_wandb': True, 'log_rollout_videos': True, 'log_rollout_fractions': [0.0, 0.33, 0.66, 1.0], 'rollout_length_multiplier': 1.0, 'rollout_eval_seed': 0, 'num_update_steps': 1220.0, 'num_gradient_steps': 97600.0, '_wandb': {'code_path': 'code/mappo_gru.py'}}
+2026-06-10 14:41:39,526 INFO    MainThread:747683 [wandb_init.py:init():899] starting backend
+2026-06-10 14:41:39,737 INFO    MainThread:747683 [wandb_init.py:init():914] sending inform_init request
+2026-06-10 14:41:40,009 INFO    MainThread:747683 [wandb_init.py:init():919] backend started and connected
+2026-06-10 14:41:40,011 INFO    MainThread:747683 [wandb_init.py:init():989] updated telemetry
+2026-06-10 14:41:40,011 INFO    MainThread:747683 [wandb_init.py:init():1012] communicating run to backend with 90.0 second timeout
+2026-06-10 14:41:40,276 INFO    MainThread:747683 [wandb_init.py:init():1057] starting run threads in backend
+2026-06-10 14:41:40,315 INFO    MainThread:747683 [wandb_run.py:_console_start():2509] atexit reg
+2026-06-10 14:41:40,315 INFO    MainThread:747683 [wandb_run.py:_redirect():2359] redirect: wrap_raw
+2026-06-10 14:41:40,315 INFO    MainThread:747683 [wandb_run.py:_redirect():2428] Wrapping output streams.
+2026-06-10 14:41:40,315 INFO    MainThread:747683 [wandb_run.py:_redirect():2451] Redirects installed.
+2026-06-10 14:41:40,316 INFO    MainThread:747683 [wandb_init.py:init():1095] run started, returning control to user process
+2026-06-10 14:58:17,791 INFO    MainThread:747683 [wandb_run.py:_finish():2271] finishing run aryaman-reddi/talk/dyhqt2i4
+2026-06-10 14:58:17,791 INFO    MainThread:747683 [wandb_run.py:_atexit_cleanup():2476] got exitcode: 0
+2026-06-10 14:58:17,791 INFO    MainThread:747683 [wandb_run.py:_restore():2458] restore
+2026-06-10 14:58:17,792 INFO    MainThread:747683 [wandb_run.py:_restore():2464] restore done
+2026-06-10 14:58:19,217 INFO    MainThread:747683 [wandb_run.py:_footer_sync_info():3877] logging synced files

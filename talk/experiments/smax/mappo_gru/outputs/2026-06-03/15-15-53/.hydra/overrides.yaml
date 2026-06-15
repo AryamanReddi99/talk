@@ -1,0 +1,6 @@
+- total_timesteps=2000
+- use_wandb=false
+- num_envs=1
+- num_steps_per_env_per_update=32
+- num_minibatches=1
+- num_epochs=1

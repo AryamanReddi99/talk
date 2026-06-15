@@ -1,0 +1,30 @@
+total_timesteps: 10000000.0
+num_envs: 32
+num_steps_per_env_per_update: 128
+num_epochs: 2
+num_minibatches: 2
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.3
+scale_clip_eps: true
+ent_coef: 0.0
+vf_coef: 0.5
+activation: relu
+fc_dim_size: 128
+lr_actor: 0.004
+lr_critic: 0.004
+anneal_lr: true
+max_grad_norm: 0.25
+seed: 0
+num_seeds: 3
+project: talk
+environment: smax
+algorithm: mappo_smax
+custom_name: ''
+use_wandb: false
+map_name: 2s3z
+obs_with_agent_id: true
+env_kwargs:
+  see_enemy_actions: true
+  walls_cause_death: true
+  attack_mode: closest

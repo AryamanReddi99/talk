@@ -1,0 +1,32 @@
+{"time":"2026-05-27T16:44:49.984492885+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-27T16:44:49.984640402+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-05-27T16:44:50.240540185+02:00","level":"INFO","msg":"stream: created new stream","id":"p7451fqe"}
+{"time":"2026-05-27T16:44:50.240618236+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-27T16:44:50.240698963+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-27T16:44:50.240741424+02:00","level":"INFO","msg":"writer: started","stream_id":"p7451fqe"}
+{"time":"2026-05-27T16:44:50.240742801+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-27T16:44:50.68122985+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-05-27T16:44:56.103479594+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-05-27T16:44:56.311682225+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:11.104272399+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":0,"history_lines":1,"events_offset":0,"events_lines":2,"uploaded_len":2}
+{"time":"2026-05-27T16:45:11.356667631+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:26.103569076+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":1,"history_lines":19,"events_offset":2,"events_lines":2}
+{"time":"2026-05-27T16:45:26.34391114+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:41.103738176+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":20,"history_lines":20,"events_offset":4,"events_lines":2}
+{"time":"2026-05-27T16:45:41.357980011+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:56.104498925+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":40,"history_lines":19,"events_offset":6,"events_lines":2}
+{"time":"2026-05-27T16:45:56.308067413+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:11.104220001+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":59,"history_lines":19,"events_offset":8,"events_lines":2}
+{"time":"2026-05-27T16:46:11.329233548+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:26.103523507+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":78,"history_lines":19,"events_offset":10,"events_lines":2}
+{"time":"2026-05-27T16:46:26.336178177+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:41.104404902+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":97,"history_lines":19,"events_offset":12,"events_lines":2}
+{"time":"2026-05-27T16:46:41.313776045+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:46.180038665+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-05-27T16:46:46.180128281+02:00","level":"INFO","msg":"filestream: sending request","total_files":2,"history_offset":116,"history_lines":6,"uploaded_len":2,"complete":true,"exit_code":0}
+{"time":"2026-05-27T16:46:46.396041689+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:46.396527198+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-27T16:46:46.398163299+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-27T16:46:46.39817149+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-27T16:46:46.398203771+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-27T16:46:46.398205937+02:00","level":"INFO","msg":"stream: all finished"}

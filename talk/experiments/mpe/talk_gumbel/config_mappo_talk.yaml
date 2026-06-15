@@ -1,0 +1,53 @@
+# Team-shared MAPPO + TarMAC on JaxMARL MPE
+total_timesteps: 1.0e7
+num_envs: 128
+num_steps_per_env_per_update: 64
+num_epochs: 4
+num_minibatches: 4
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+scale_clip_eps: false
+ent_coef: 0.01
+vf_coef: 0.5
+activation: relu
+fc_dim_size: 128
+gru_hidden_size: 128
+
+# Talk-Gumbel discrete-token message channel
+vocab_content: 10        # content tokens (excludes BOS/EOS)
+vocab_embed_dim: 64      # token embedding dim (d_tok)
+attn_dim: 32             # attention projection dim (d_att, single head)
+max_msg_len: 10          # max generated tokens (L)
+min_msg_len: 0           # mask EOS for first min_msg_len steps (anti-collapse)
+gumbel_tau: 1.0          # fixed ST-Gumbel temperature
+len_aux_coef: 0.0        # length auxiliary loss weight (sum_t A_t)
+trajectory_scan_unroll: 8
+
+# -1 = unlimited ally comm; otherwise Euclidean radius in MPE world units
+comm_range: -1
+
+lr_actor: 5.0e-4
+lr_critic: 1.0e-3
+anneal_lr: true
+max_grad_norm: 0.5
+
+seed: 0
+num_seeds: 3
+
+project: talk
+environment: mpe
+env_name: MPE_simple_spread_v3
+env_kwargs: {}
+num_agents: null
+sight_range: -1.0
+algorithm: mappo_talk
+custom_name: "_new_mpe"
+talk_config: ""
+use_wandb: true
+
+log_rollout_videos: true
+log_rollout_fractions: [0.0, 0.33, 0.66, 1.0]
+rollout_length_multiplier: 1.0
+rollout_eval_seed: 0

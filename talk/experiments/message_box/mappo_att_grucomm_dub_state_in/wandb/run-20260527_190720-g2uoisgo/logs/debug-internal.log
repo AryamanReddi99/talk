@@ -1,0 +1,32 @@
+{"time":"2026-05-27T19:07:20.898648429+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-27T19:07:20.89879628+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-05-27T19:07:21.147055661+02:00","level":"INFO","msg":"stream: created new stream","id":"g2uoisgo"}
+{"time":"2026-05-27T19:07:21.14709522+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-27T19:07:21.147185775+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-27T19:07:21.147194378+02:00","level":"INFO","msg":"writer: started","stream_id":"g2uoisgo"}
+{"time":"2026-05-27T19:07:21.147202431+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-27T19:07:21.514918313+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-05-27T19:07:26.90343075+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-05-27T19:07:27.099400693+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:07:41.904039354+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"events_offset":0,"events_lines":2,"uploaded_len":2}
+{"time":"2026-05-27T19:07:42.111156685+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:07:56.903520823+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":0,"history_lines":17,"events_offset":2,"events_lines":2}
+{"time":"2026-05-27T19:07:57.105791944+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:11.903747794+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":17,"history_lines":19,"events_offset":4,"events_lines":2}
+{"time":"2026-05-27T19:08:12.091861857+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:26.90403077+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":36,"history_lines":18,"events_offset":6,"events_lines":2}
+{"time":"2026-05-27T19:08:27.145509454+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:41.904129814+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":54,"history_lines":18,"events_offset":8,"events_lines":2}
+{"time":"2026-05-27T19:08:42.104064548+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:56.904367918+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":72,"history_lines":17,"events_offset":10,"events_lines":2}
+{"time":"2026-05-27T19:08:57.1043655+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:11.904300555+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":89,"history_lines":18,"events_offset":12,"events_lines":2}
+{"time":"2026-05-27T19:09:12.143047904+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:24.14427633+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-05-27T19:09:24.144444071+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":107,"history_lines":15,"events_offset":14,"events_lines":2,"uploaded_len":2,"complete":true,"exit_code":0}
+{"time":"2026-05-27T19:09:24.349410962+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:24.350311332+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-27T19:09:24.352753697+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-27T19:09:24.352765836+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-27T19:09:24.352814079+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-27T19:09:24.352820359+02:00","level":"INFO","msg":"stream: all finished"}

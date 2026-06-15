@@ -1,0 +1,32 @@
+{"time":"2026-05-27T16:44:49.982565223+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-27T16:44:49.982802637+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-05-27T16:44:50.233555965+02:00","level":"INFO","msg":"stream: created new stream","id":"2tbdnnrl"}
+{"time":"2026-05-27T16:44:50.233602663+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-27T16:44:50.233699061+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-27T16:44:50.23371255+02:00","level":"INFO","msg":"writer: started","stream_id":"2tbdnnrl"}
+{"time":"2026-05-27T16:44:50.233721541+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-27T16:44:50.54696612+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-05-27T16:44:55.932601442+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-05-27T16:44:56.130552387+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:10.932868525+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":0,"history_lines":1,"events_offset":0,"events_lines":2,"uploaded_len":2}
+{"time":"2026-05-27T16:45:11.165498542+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:25.93319206+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":1,"history_lines":19,"events_offset":2,"events_lines":2}
+{"time":"2026-05-27T16:45:26.145554992+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:40.933272646+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":20,"history_lines":19,"events_offset":4,"events_lines":2}
+{"time":"2026-05-27T16:45:41.192208844+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:45:55.93314467+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":39,"history_lines":20,"events_offset":6,"events_lines":2}
+{"time":"2026-05-27T16:45:56.16127731+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:10.932736542+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":59,"history_lines":19,"events_offset":8,"events_lines":2}
+{"time":"2026-05-27T16:46:11.154704144+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:25.933140585+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":78,"history_lines":19,"events_offset":10,"events_lines":2}
+{"time":"2026-05-27T16:46:26.158971221+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:40.933655598+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":97,"history_lines":19,"events_offset":12,"events_lines":2}
+{"time":"2026-05-27T16:46:41.151116635+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:46.186484109+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-05-27T16:46:46.186574314+02:00","level":"INFO","msg":"filestream: sending request","total_files":2,"history_offset":116,"history_lines":6,"uploaded_len":2,"complete":true,"exit_code":0}
+{"time":"2026-05-27T16:46:46.391550614+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T16:46:46.392382469+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-27T16:46:46.394164533+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-27T16:46:46.394170718+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-27T16:46:46.394204931+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-27T16:46:46.394207009+02:00","level":"INFO","msg":"stream: all finished"}

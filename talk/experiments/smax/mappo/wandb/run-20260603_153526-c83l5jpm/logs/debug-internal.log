@@ -1,0 +1,10 @@
+{"time":"2026-06-03T15:35:26.468410467+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-06-03T15:35:26.468658132+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-06-03T15:35:26.719571884+02:00","level":"INFO","msg":"stream: created new stream","id":"c83l5jpm"}
+{"time":"2026-06-03T15:35:26.719634521+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-06-03T15:35:26.719707148+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-06-03T15:35:26.719738065+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-06-03T15:35:26.719741904+02:00","level":"INFO","msg":"writer: started","stream_id":"c83l5jpm"}
+{"time":"2026-06-03T15:35:27.352921772+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-06-03T15:35:32.727201212+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-06-03T15:35:32.937253219+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}

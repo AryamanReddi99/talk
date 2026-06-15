@@ -1,0 +1,4 @@
+- sight_range=0.5
+- num_seeds=3
+- log_rollout_videos=false
+- talk_config=baseline_c0

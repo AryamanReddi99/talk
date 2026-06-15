@@ -1,0 +1,32 @@
+{"time":"2026-05-27T19:07:20.902492338+02:00","level":"INFO","msg":"wandb-core"}
+{"time":"2026-05-27T19:07:20.902615207+02:00","level":"INFO","msg":"stream: starting","core version":"0.27.0"}
+{"time":"2026-05-27T19:07:21.159450879+02:00","level":"INFO","msg":"stream: created new stream","id":"p1smh0md"}
+{"time":"2026-05-27T19:07:21.15950616+02:00","level":"INFO","msg":"handler: started"}
+{"time":"2026-05-27T19:07:21.159546978+02:00","level":"INFO","msg":"stream: started"}
+{"time":"2026-05-27T19:07:21.159560599+02:00","level":"INFO","msg":"sender: started"}
+{"time":"2026-05-27T19:07:21.159571121+02:00","level":"INFO","msg":"writer: started","stream_id":"p1smh0md"}
+{"time":"2026-05-27T19:07:21.701746812+02:00","level":"ERROR","msg":"git repo not found","error":"repository does not exist"}
+{"time":"2026-05-27T19:07:27.092479759+02:00","level":"INFO","msg":"filestream: sending request","total_files":0,"uploaded_len":1}
+{"time":"2026-05-27T19:07:27.321332308+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:07:42.092836041+02:00","level":"INFO","msg":"filestream: sending request","total_files":1,"events_offset":0,"events_lines":2,"uploaded_len":2}
+{"time":"2026-05-27T19:07:42.297398282+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:07:57.092974614+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":0,"history_lines":17,"events_offset":2,"events_lines":2}
+{"time":"2026-05-27T19:07:57.296652421+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:12.092665551+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":17,"history_lines":19,"events_offset":4,"events_lines":2}
+{"time":"2026-05-27T19:08:12.299069447+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:27.092296447+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":36,"history_lines":18,"events_offset":6,"events_lines":2}
+{"time":"2026-05-27T19:08:27.292031114+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:42.093016541+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":54,"history_lines":18,"events_offset":8,"events_lines":2}
+{"time":"2026-05-27T19:08:42.289270498+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:08:57.092795192+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":72,"history_lines":18,"events_offset":10,"events_lines":2}
+{"time":"2026-05-27T19:08:57.31845482+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:12.093143165+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":90,"history_lines":18,"events_offset":12,"events_lines":2}
+{"time":"2026-05-27T19:09:12.28763362+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:24.274982776+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-05-27T19:09:24.275185106+02:00","level":"INFO","msg":"filestream: sending request","total_files":3,"history_offset":108,"history_lines":14,"events_offset":14,"events_lines":2,"uploaded_len":2,"complete":true,"exit_code":0}
+{"time":"2026-05-27T19:09:24.462623585+02:00","level":"INFO","msg":"filestream: request sent","status":"200 OK"}
+{"time":"2026-05-27T19:09:24.46347413+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-27T19:09:24.465164584+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-27T19:09:24.465172086+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-27T19:09:24.465204409+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-27T19:09:24.465207671+02:00","level":"INFO","msg":"stream: all finished"}

@@ -1,0 +1,149 @@
+_wandb:
+    value:
+        cli_version: 0.27.0
+        code_path: code/mappo_talk.py
+        e:
+            4vlyuil25a2ht4mjwyswqexfm66aq20m:
+                args:
+                    - sight_range=0.5
+                    - num_seeds=3
+                    - log_rollout_videos=false
+                    - min_msg_len=1
+                    - attn_dim=64
+                    - talk_config=h3_minlen1_attn64
+                codePath: mappo_talk.py
+                codePathLocal: mappo_talk.py
+                cpu_count: 16
+                cpu_count_logical: 24
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "1006450962432"
+                        used: "511388827648"
+                email: aryaman.reddi@tu-darmstadt.de
+                executable: /home/aryaman/anaconda3/envs/talk/bin/python
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8704
+                      memoryTotal: "10737418240"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-e3bd5842-c88e-7005-bedb-5e83370db552
+                host: Nash
+                memory:
+                    total: "33484742656"
+                os: Linux-6.8.0-124-generic-x86_64-with-glibc2.39
+                program: /home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/mappo_talk.py
+                python: CPython 3.12.13
+                root: /home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel
+                startedAt: "2026-06-15T00:05:23.173329Z"
+                writerId: 4vlyuil25a2ht4mjwyswqexfm66aq20m
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 12
+                - 45
+                - 50
+            "2":
+                - 12
+                - 45
+                - 50
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.12.13
+            "5": 0.27.0
+            "12": 0.27.0
+            "13": linux-x86_64
+activation:
+    value: relu
+algorithm:
+    value: mappo_talk
+anneal_lr:
+    value: true
+attn_dim:
+    value: 64
+clip_eps:
+    value: 0.2
+comm_range:
+    value: -1
+custom_name:
+    value: _new_mpe
+ent_coef:
+    value: 0.01
+env_name:
+    value: MPE_simple_spread_v3
+environment:
+    value: mpe
+fc_dim_size:
+    value: 128
+gae_lambda:
+    value: 0.95
+gamma:
+    value: 0.99
+gru_hidden_size:
+    value: 128
+gumbel_tau:
+    value: 1
+len_aux_coef:
+    value: 0
+log_rollout_fractions:
+    value:
+        - 0
+        - 0.33
+        - 0.66
+        - 1
+log_rollout_videos:
+    value: false
+lr_actor:
+    value: 0.0005
+lr_critic:
+    value: 0.001
+max_grad_norm:
+    value: 0.5
+max_msg_len:
+    value: 10
+min_msg_len:
+    value: 1
+num_agents:
+    value: null
+num_envs:
+    value: 128
+num_epochs:
+    value: 4
+num_minibatches:
+    value: 4
+num_seeds:
+    value: 3
+num_steps_per_env_per_update:
+    value: 64
+project:
+    value: talk
+rollout_eval_seed:
+    value: 0
+rollout_length_multiplier:
+    value: 1
+scale_clip_eps:
+    value: false
+seed:
+    value: 0
+sight_range:
+    value: 0.5
+talk_config:
+    value: h3_minlen1_attn64
+total_timesteps:
+    value: 1e+07
+trajectory_scan_unroll:
+    value: 8
+use_wandb:
+    value: true
+vf_coef:
+    value: 0.5
+vocab_content:
+    value: 10
+vocab_embed_dim:
+    value: 64

@@ -1,0 +1,114 @@
+_wandb:
+    value:
+        cli_version: 0.27.0
+        code_path: code/mappo_att_grucomm_dub.py
+        e:
+            awo0i2z6bhiy1msy13m1x65ov0nwwqpl:
+                args:
+                    - num_agents=2
+                    - custom_name=_skip_obs
+                codePath: mappo_att_grucomm_dub.py
+                codePathLocal: mappo_att_grucomm_dub.py
+                cpu_count: 16
+                cpu_count_logical: 24
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "1006450962432"
+                        used: "506044108800"
+                email: aryaman.reddi@tu-darmstadt.de
+                executable: /home/aryaman/anaconda3/envs/talk/bin/python
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8704
+                      memoryTotal: "10737418240"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-e3bd5842-c88e-7005-bedb-5e83370db552
+                host: Nash
+                memory:
+                    total: "33484738560"
+                os: Linux-6.8.0-111-generic-x86_64-with-glibc2.39
+                program: /home/aryaman/Desktop/project-talk/talk/experiments/message_box/mappo_att_grucomm_dub/mappo_att_grucomm_dub.py
+                python: CPython 3.12.13
+                root: /home/aryaman/Desktop/project-talk/talk/experiments/message_box/mappo_att_grucomm_dub
+                startedAt: "2026-05-27T15:57:43.934019Z"
+                writerId: awo0i2z6bhiy1msy13m1x65ov0nwwqpl
+        m: []
+        python_version: 3.12.13
+        t:
+            "1":
+                - 12
+                - 45
+                - 50
+            "2":
+                - 12
+                - 45
+                - 50
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.12.13
+            "5": 0.27.0
+            "12": 0.27.0
+            "13": linux-x86_64
+activation:
+    value: tanh
+algorithm:
+    value: mappo_att_grucomm_dub
+anneal_lr:
+    value: true
+clip_eps:
+    value: 0.2
+custom_name:
+    value: _skip_obs
+ent_coef:
+    value: 0.01
+fc_dim_size:
+    value: 64
+gae_lambda:
+    value: 0.95
+gamma:
+    value: 0.99
+gru_hidden_size:
+    value: 64
+include_agent_id:
+    value: true
+lr_actor:
+    value: 0.0003
+lr_critic:
+    value: 0.0003
+max_grad_norm:
+    value: 0.5
+max_steps:
+    value: 10
+num_agents:
+    value: 2
+num_envs:
+    value: 64
+num_epochs:
+    value: 4
+num_gradient_steps:
+    value: 1952
+num_minibatches:
+    value: 4
+num_seeds:
+    value: 3
+num_steps_per_env_per_update:
+    value: 128
+num_update_steps:
+    value: 122
+project:
+    value: talk
+reward_correct:
+    value: 1
+reward_wrong:
+    value: -1
+seed:
+    value: 0
+total_timesteps:
+    value: 1e+06
+use_wandb:
+    value: true

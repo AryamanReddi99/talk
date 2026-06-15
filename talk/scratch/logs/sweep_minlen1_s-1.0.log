@@ -1,0 +1,137 @@
+Importing submoduled environments...
+Submoduled environments not found. Skipping import.
+Compiling MAPPO-TarMAC MPE...
+Running...
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/aryaman/.netrc.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/aryaman/.netrc.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/aryaman/.netrc.
+wandb: Currently logged in as: aryaman-reddi to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: aryaman-reddi to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: aryaman-reddi to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run mir8lfm8
+wandb: setting up run bg14wgik
+wandb: Tracking run with wandb version 0.27.0
+wandb: Run data is saved locally in /home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/wandb/run-20260615_122819-mir8lfm8
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 0_2_2026-06-15_12-26-14
+wandb: ⭐️ View project at https://wandb.ai/aryaman-reddi/talk
+wandb: 🚀 View run at https://wandb.ai/aryaman-reddi/talk/runs/mir8lfm8
+wandb: Tracking run with wandb version 0.27.0
+wandb: Run data is saved locally in /home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/wandb/run-20260615_122819-t4axnxap
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 0_0_2026-06-15_12-26-14
+wandb: ⭐️ View project at https://wandb.ai/aryaman-reddi/talk
+wandb: 🚀 View run at https://wandb.ai/aryaman-reddi/talk/runs/t4axnxap
+wandb: Tracking run with wandb version 0.27.0
+wandb: Run data is saved locally in /home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/wandb/run-20260615_122819-bg14wgik
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 0_1_2026-06-15_12-26-14
+wandb: ⭐️ View project at https://wandb.ai/aryaman-reddi/talk
+wandb: 🚀 View run at https://wandb.ai/aryaman-reddi/talk/runs/bg14wgik
+wandb: updating run metadata
+wandb: updating run metadata
+wandb: updating run metadata
+wandb: uploading wandb-summary.json; uploading config.yaml
+wandb: uploading wandb-summary.json; uploading config.yaml
+wandb: uploading wandb-summary.json; uploading config.yaml
+wandb: 
+wandb: Run history:
+wandb:  actor_grad_norm ▁▂▁▂▂▂▃▄▅▅▅▅▅▆▆▆▆▆▅▆█▆▅▅▆▅▆▆▆▅▆▅▅▆▅▅▅▅▅▅
+wandb:       actor_loss ▂▁▃▄▅▄▄▄▅▅▄▆▆▆▅▇▄▅▆▆▆▇▆▆▇▆▇▆▆▆▆▇▆▇▇▇▇▇██
+wandb:        approx_kl ▃▃▄▄▄▅▃▄▄▆▅▅▅▆▆▆▆█▇▆█▇▆▆▆▆▆▅▅▅▅▄▅▄▄▃▃▃▃▁
+wandb:        clip_frac ▂▃▃▃▄▆▆▆▄▇▆▅▇▇▇▇█▇█▇▇▆▆▇▆▆▆▅▆▆▇▅▆▆▆▄▃▂▂▁
+wandb:    comm_ctx_norm ██▇▆▃▂▂▂▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: critic_grad_norm █▇▄▅▅▃▄▇▃▂▃▂▃▂▂▂▂▂▃▂▁▂▁▂▁▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:          entropy █▆▅▄▄▄▄▃▃▃▃▂▂▂▃▃▂▃▂▂▂▂▂▂▂▂▂▂▁▁▁▁▂▁▁▂▁▁▂▁
+wandb:         env_step ▁▁▁▂▂▂▂▂▂▂▃▃▃▄▄▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▆▆▇▇▇▇▇██
+wandb: expected_msg_len ▁▁▁▃▃▂▂▄▄▅▇▇▇▇▇█████████████████████████
+wandb:       gumbel_tau ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               +8 ...
+wandb: 
+wandb: Run summary:
+wandb:  actor_grad_norm 0.65056
+wandb:       actor_loss -0.00826
+wandb:        approx_kl 7e-05
+wandb:        clip_frac 0.00077
+wandb:    comm_ctx_norm 2.13414
+wandb: critic_grad_norm 0.56515
+wandb:          entropy 0.82707
+wandb:         env_step 9986048.0
+wandb: expected_msg_len 9.99674
+wandb:       gumbel_tau 1
+wandb:               +8 ...
+wandb: 
+wandb: 🚀 View run 0_2_2026-06-15_12-26-14 at: https://wandb.ai/aryaman-reddi/talk/runs/mir8lfm8
+wandb: ⭐️ View project at: https://wandb.ai/aryaman-reddi/talk
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260615_122819-mir8lfm8/logs
+Importing submoduled environments...
+Submoduled environments not found. Skipping import.
+wandb: 
+wandb: Run history:
+wandb:  actor_grad_norm ▁▁▂▃▂▃▃▄▅▅▇▅▆▆▅▇▇█▅▅▅▆▇▆▅▇▆▆▆▆▆▆▆▆▆▅▆▅▆▅
+wandb:       actor_loss ▁▂▂▃▃▄▄▄▄▅▄▅▄▅▅▅▆▅▅▅▄▅▅▅▅▅▆▅▅▅▆▇▆▆▇▇▇▆▇█
+wandb:        approx_kl ▃▃▃▄▄▄▅▆▅▆▅▆▆█▆▅▆▇▇▇▆▆▆▆▆▅▆▅▅▅▄▅▅▄▄▄▄▃▂▁
+wandb:        clip_frac ▂▄▂▂▆▅▆█▆▇▆▇▇▆▇█▆▅▅▇▇▇▆▆▆▇▅▆▆▄▄▅▃▃▄▃▂▁▂▁
+wandb:    comm_ctx_norm ██▆▅▅▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▁▁▂▂▂▂▂▂▂
+wandb: critic_grad_norm █▄▄▄▄▃▃▃▄▂▂▂▂▂▃▂▂▃▂▂▂▁▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:          entropy █▇▆▄▄▃▃▃▃▃▂▃▃▃▃▂▂▂▃▃▂▂▂▂▂▂▁▂▂▁▂▂▂▁▁▂▁▁▁▁
+wandb:         env_step ▁▁▁▂▂▂▂▂▂▂▃▃▃▃▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇▇██
+wandb: expected_msg_len ▂▁▁▁▁▄▄▆▇▇▇███▇██▇▇█████████████████████
+wandb:       gumbel_tau ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               +8 ...
+wandb: 
+wandb: Run summary:
+wandb:  actor_grad_norm 0.64514
+wandb:       actor_loss -0.00811
+wandb:        approx_kl 0.00017
+wandb:        clip_frac 0.00166
+wandb:    comm_ctx_norm 1.87389
+wandb: critic_grad_norm 0.4946
+wandb:          entropy 0.81126
+wandb:         env_step 9986048.0
+wandb: expected_msg_len 9.91252
+wandb:       gumbel_tau 1
+wandb:               +8 ...
+wandb: 
+wandb: 🚀 View run 0_0_2026-06-15_12-26-14 at: https://wandb.ai/aryaman-reddi/talk/runs/t4axnxap
+wandb: ⭐️ View project at: https://wandb.ai/aryaman-reddi/talk
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260615_122819-t4axnxap/logs
+Importing submoduled environments...
+Submoduled environments not found. Skipping import.
+wandb: uploading history steps 1211-1219, summary
+wandb: 
+wandb: Run history:
+wandb:  actor_grad_norm ▁▁▂▂▂▄▃▃▄▇▅▅▆█▆▇▇▇▆▇▅▇█▆▇▆█▇▇▆▇▇▇▇▇▆▇▇▆▇
+wandb:       actor_loss ▁▂▂▃▄▃▄▃▃▃▄▃▃▄▄▄▄▄▄▄▄▄▅▅▅▅▅▅▆▅▆▆▆█▆▆▇▇▇█
+wandb:        approx_kl ▄▄▅▅▄▆▆▆▆▇▆▅▇█▇▇▇▇▇▇▇▇▇▇█▆▆▆▇▆▅▆▆▅▅▅▆▄▄▁
+wandb:        clip_frac ▃▃▄▃▅▅▇▅▆▇█▆▇▆▇▇▇▆▆▆▆▇▆▆▅▆▆▆▅▆▅▅▅▄▄▃▃▂▂▁
+wandb:    comm_ctx_norm █▅▅▅▄▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: critic_grad_norm ▇█▄▃▃▂▂▂▂▂▂▂▂▂▂▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:          entropy █▇▅▄▄▄▄▃▄▃▃▃▃▃▃▃▃▃▃▃▂▂▂▂▂▂▁▂▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:         env_step ▁▁▁▁▁▃▃▃▃▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▅▅▅▅▆▆▆▆▆▇▇▇██
+wandb: expected_msg_len ▁▁▁▃▃▄▅▆▇▇██████████████████████████████
+wandb:       gumbel_tau ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               +8 ...
+wandb: 
+wandb: Run summary:
+wandb:  actor_grad_norm 0.54041
+wandb:       actor_loss -0.00773
+wandb:        approx_kl 0.00019
+wandb:        clip_frac 0.00182
+wandb:    comm_ctx_norm 1.88902
+wandb: critic_grad_norm 0.51637
+wandb:          entropy 0.78196
+wandb:         env_step 9986048.0
+wandb: expected_msg_len 9.94685
+wandb:       gumbel_tau 1
+wandb:               +8 ...
+wandb: 
+wandb: 🚀 View run 0_1_2026-06-15_12-26-14 at: https://wandb.ai/aryaman-reddi/talk/runs/bg14wgik
+wandb: ⭐️ View project at: https://wandb.ai/aryaman-reddi/talk
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260615_122819-bg14wgik/logs
+Importing submoduled environments...
+Submoduled environments not found. Skipping import.
+Finished.

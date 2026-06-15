@@ -1,0 +1,4 @@
+- total_timesteps=65536
+- num_seeds=1
+- use_wandb=false
+- log_rollout_fractions=[0.0,0.5,1.0]

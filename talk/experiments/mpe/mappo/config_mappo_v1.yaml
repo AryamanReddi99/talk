@@ -1,0 +1,61 @@
+total_timesteps: 1.0e7
+num_envs: 128
+num_steps_per_env_per_update: 64
+num_epochs: 10
+num_minibatches: 8
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+ent_coef: 0.01
+activation: relu
+fc_dim_size: 128
+
+lr_actor: 5.0e-4
+lr_critic: 1.0e-3
+anneal_lr: true
+max_grad_norm: 0.5
+
+seed: 0
+num_seeds: 3
+
+# wandb
+project: talk
+environment: mpe
+env_name: MPE_simple_spread_v3
+env_kwargs: {}
+num_agents: null  # when set, passed to env constructor for spread/simple_v3 (also sets num_landmarks for spread)
+sight_range: -1.0
+algorithm: mappo_mpe
+custom_name: ""
+use_wandb: true
+
+# MPE default constructor agent/entity counts (override via env_kwargs unless noted fixed):
+#   MPE_simple_v3:                  num_agents=1, num_landmarks=1
+#   MPE_simple_spread_v3:           num_agents=3, num_landmarks=3
+#   MPE_simple_tag_v3:              num_good_agents=1, num_adversaries=3, num_obs=2
+#   MPE_simple_adversary_v3:        num_good_agents=2, num_adversaries=1, num_obs=2
+#   MPE_simple_push_v3:             num_good_agents=1, num_adversaries=1, num_landmarks=2 (landmarks fixed at 2)
+#   MPE_simple_world_comm_v3:       num_good_agents=2, num_adversaries=4, num_obs=1, num_food=2, num_forests=2
+#   MPE_simple_crypto_v3:           num_agents=3, num_landmarks=2 (fixed)
+#   MPE_simple_reference_v3:        num_agents=2, num_landmarks=3 (fixed)
+#   MPE_simple_speaker_listener_v4: num_agents=2, num_landmarks=3 (fixed)
+#   MPE_simple_facmac_v1:           num_good_agents=1, num_adversaries=3, num_landmarks=2
+#   MPE_simple_facmac_3a_v1:        num_good_agents=1, num_adversaries=3, num_landmarks=2 (fixed)
+#   MPE_simple_facmac_6a_v1:        num_good_agents=2, num_adversaries=6, num_landmarks=4 (fixed)
+#   MPE_simple_facmac_9a_v1:        num_good_agents=3, num_adversaries=9, num_landmarks=6 (fixed)
+#
+# For tag/adversary/push/world_comm/facmac, set counts in env_kwargs, e.g.:
+#   env_kwargs: {num_good_agents: 2, num_adversaries: 4, num_obs: 2}
+
+# rollout videos (wandb Media panel; seed 0 only)
+log_rollout_videos: true
+log_rollout_fractions: [0.0, 0.33, 0.66, 1.0]
+rollout_length_multiplier: 1.0  # 1.0 = one env horizon, 2.0 = two horizons, etc.
+rollout_eval_seed: 0
+
+# Examples:
+# env_name: MPE_simple_tag_v3
+# env_name: MPE_simple_world_comm_v3
+# env_kwargs:
+#   action_type: Discrete

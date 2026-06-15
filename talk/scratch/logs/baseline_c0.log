@@ -1,0 +1,17 @@
+Importing submoduled environments...
+Submoduled environments not found. Skipping import.
+2026-06-15 00:49:53.937995: W external/xla/xla/stream_executor/cuda/cuda_command_buffer.cc:662] Retry CUDA graph instantiation after OOM error
+E0615 00:49:53.938169 1576707 pjrt_stream_executor_client.cc:3086] Execution of replica 0 failed: RESOURCE_EXHAUSTED: Underlying backend ran out of memory trying to instantiate graph with 15 nodes and 0 conditionals (total of 0 alive graphs in the process). You can try to (a) Give more memory to the driver by reducing XLA_CLIENT_MEM_FRACTION (b) Disable command buffers with 'XLA_FLAGS=--xla_gpu_enable_command_buffer=' (empty set). Original error: Failed to instantiate CUDA graph: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+Compiling MAPPO-TarMAC MPE...
+Running...
+Finished.
+Error executing job with overrides: ['sight_range=0.5', 'num_seeds=3', 'log_rollout_videos=false', 'talk_config=baseline_c0']
+Traceback (most recent call last):
+  File "/home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/mappo_talk.py", line 757, in main
+    jax.block_until_ready(train_fn(rng_seeds, exp_ids))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jaxlib.xla_extension.XlaRuntimeError: RESOURCE_EXHAUSTED: Underlying backend ran out of memory trying to instantiate graph with 15 nodes and 0 conditionals (total of 0 alive graphs in the process). You can try to (a) Give more memory to the driver by reducing XLA_CLIENT_MEM_FRACTION (b) Disable command buffers with 'XLA_FLAGS=--xla_gpu_enable_command_buffer=' (empty set). Original error: Failed to instantiate CUDA graph: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+--------------------
+For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

@@ -1,0 +1,44 @@
+# FindGoal MAPPO + simplified AEComm (mapped from marl-ae-comm FindGoal AEComm)
+total_timesteps: 1e6
+num_envs: 64
+num_steps_per_env_per_update: 64
+num_epochs: 4
+num_minibatches: 4
+num_test_episodes: 5
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+ent_coef: 0.01
+recon_coef: 1.0
+activation: tanh
+fc_dim_size: 64
+gru_hidden_size: 64
+
+lr_actor: 3.0e-4
+lr_critic: 3.0e-4
+anneal_lr: true
+max_grad_norm: 0.5
+
+# AEComm
+comm_len: 10
+img_feat_dim: 64
+pos_feat_dim: 64
+
+# FindGoal environment
+num_agents: 3
+grid_size: 15
+max_steps: 512
+view_size: 7
+view_tile_size: 6
+clutter_density: 0.15
+
+seed: 0
+num_seeds: 3
+
+# wandb
+project: talk
+environment: find_goal
+algorithm: mappo_ae_comm
+custom_name: ""
+use_wandb: true

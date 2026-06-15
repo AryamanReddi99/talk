@@ -1,0 +1,109 @@
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_setup.py:_flush():81] Current SDK version is 0.27.0
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_setup.py:_flush():81] Configure stats pid to 2259538
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_init.py:setup_run_log_directory():723] Logging user logs to /home/aryaman/Desktop/project-talk/talk/experiments/message_box/mappo_att_grucomm_dub/wandb/run-20260527_175912-3jlpbhsn/logs/debug.log
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_init.py:setup_run_log_directory():724] Logging internal logs to /home/aryaman/Desktop/project-talk/talk/experiments/message_box/mappo_att_grucomm_dub/wandb/run-20260527_175912-3jlpbhsn/logs/debug-internal.log
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_init.py:init():851] calling init triggers
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_init.py:init():856] wandb.init called with sweep_config: {}
+config: {'total_timesteps': 1000000.0, 'num_envs': 64, 'num_steps_per_env_per_update': 128, 'num_epochs': 4, 'num_minibatches': 4, 'gamma': 0.99, 'gae_lambda': 0.95, 'clip_eps': 0.2, 'ent_coef': 0.01, 'activation': 'tanh', 'fc_dim_size': 64, 'gru_hidden_size': 64, 'lr_actor': 0.0003, 'lr_critic': 0.0003, 'anneal_lr': True, 'max_grad_norm': 0.5, 'num_agents': 3, 'max_steps': 10, 'reward_correct': 1.0, 'reward_wrong': -1.0, 'include_agent_id': True, 'seed': 0, 'num_seeds': 3, 'project': 'talk', 'algorithm': 'mappo_att_grucomm_dub', 'custom_name': '_skip_obs', 'use_wandb': True, 'num_update_steps': 122.0, 'num_gradient_steps': 1952.0, '_wandb': {'code_path': 'code/mappo_att_grucomm_dub.py'}}
+2026-05-27 17:59:12,113 INFO    MainThread:2259538 [wandb_init.py:init():899] starting backend
+2026-05-27 17:59:12,328 INFO    MainThread:2259538 [wandb_init.py:init():914] sending inform_init request
+2026-05-27 17:59:12,586 INFO    MainThread:2259538 [wandb_init.py:init():919] backend started and connected
+2026-05-27 17:59:12,588 INFO    MainThread:2259538 [wandb_init.py:init():989] updated telemetry
+2026-05-27 17:59:12,588 INFO    MainThread:2259538 [wandb_init.py:init():1012] communicating run to backend with 90.0 second timeout
+2026-05-27 17:59:13,151 INFO    MainThread:2259538 [wandb_init.py:init():1057] starting run threads in backend
+2026-05-27 17:59:13,176 INFO    MainThread:2259538 [wandb_run.py:_console_start():2509] atexit reg
+2026-05-27 17:59:13,176 INFO    MainThread:2259538 [wandb_run.py:_redirect():2359] redirect: wrap_raw
+2026-05-27 17:59:13,177 INFO    MainThread:2259538 [wandb_run.py:_redirect():2428] Wrapping output streams.
+2026-05-27 17:59:13,177 INFO    MainThread:2259538 [wandb_run.py:_redirect():2451] Redirects installed.
+2026-05-27 17:59:13,178 INFO    MainThread:2259538 [wandb_init.py:init():1095] run started, returning control to user process
+2026-05-27 18:00:09,172 INFO    MainThread:2259538 [wandb_run.py:_finish():2271] finishing run aryaman-reddi/talk/3jlpbhsn
+2026-05-27 18:00:09,173 INFO    MainThread:2259538 [wandb_run.py:_atexit_cleanup():2476] got exitcode: 0
+2026-05-27 18:00:09,173 INFO    MainThread:2259538 [wandb_run.py:_restore():2458] restore
+2026-05-27 18:00:09,173 INFO    MainThread:2259538 [wandb_run.py:_restore():2464] restore done
+2026-05-27 18:00:10,351 INFO    MainThread:2259538 [wandb_run.py:_restore():2458] restore
+2026-05-27 18:00:10,351 INFO    MainThread:2259538 [wandb_run.py:_restore():2464] restore done
+2026-05-27 18:00:10,351 ERROR   MainThread:2259538 [wandb_run.py:_atexit_cleanup():2496] Problem finishing run
+Traceback (most recent call last):
+  File "/home/aryaman/Desktop/project-talk/talk/utils/wandb_multilogger.py", line 27, in worker
+    data = queue.get()
+           ^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/multiprocessing/queues.py", line 103, in get
+    res = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/multiprocessing/connection.py", line 395, in _recv
+    chunk = read(handle, remaining)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 2487, in _atexit_cleanup
+    self._on_finish()
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 2744, in _on_finish
+    result = wait_with_progress(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 24, in wait_with_progress
+    return wait_all_with_progress(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 78, in wait_all_with_progress
+    return asyncer.run(progress_loop_with_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 137, in run
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_manager.py", line 223, in _wrap
+    return await fn()
+           ^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 66, in progress_loop_with_timeout
+    async with asyncio_compat.cancel_on_exit(display_progress()):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 258, in cancel_on_exit
+    async with open_task_group(race=True) as group:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 241, in open_task_group
+    await task_group._wait_all(race=race, timeout=exit_timeout)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 181, in _wait_all
+    raise exc
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/progress.py", line 65, in loop_printing_operation_stats
+    async with asyncio_compat.open_task_group() as task_group:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/contextlib.py", line 217, in __aexit__
+    await anext(self.gen)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 241, in open_task_group
+    await task_group._wait_all(race=race, timeout=exit_timeout)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/asyncio_compat.py", line 181, in _wait_all
+    raise exc
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/progress.py", line 45, in loop_update_screen
+    progress.update(stats)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/progress.py", line 122, in update
+    self._printer.display(line)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/printer.py", line 314, in display
+    self._display_fn_mapping(level)(text)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/errors/term.py", line 217, in termlog
+    _log(
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/errors/term.py", line 520, in _log
+    click.echo(string, file=sys.stderr, nl=newline)
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/click/utils.py", line 333, in echo
+    file.write(out)  # type: ignore
+    ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/wandb/sdk/lib/console_capture.py", line 184, in write_with_callbacks
+    n = orig_write(s)
+        ^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe

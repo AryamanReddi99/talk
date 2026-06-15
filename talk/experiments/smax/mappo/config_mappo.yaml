@@ -1,0 +1,49 @@
+total_timesteps: 1.0e7
+num_envs: 64
+num_steps_per_env_per_update: 128
+num_epochs: 2
+num_minibatches: 2
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+scale_clip_eps: true
+ent_coef: 0.0
+vf_coef: 0.5
+
+activation: relu
+fc_dim_size: 128
+
+lr_actor: 4e-3
+lr_critic: 4e-3
+anneal_lr: true
+max_grad_norm: 0.5
+
+seed: 0
+num_seeds: 3
+
+project: talk
+environment: smax
+algorithm: mappo_smax
+custom_name: ""
+use_wandb: true
+
+map_name: 3s_vs_5z
+obs_with_agent_id: true
+sight_range_scale: 1.0
+env_kwargs:
+  see_enemy_actions: true
+  walls_cause_death: true
+  attack_mode: closest
+
+# 2s3z
+# 3s5z
+# 8m
+# corridor
+# 2s3z_vs_2s3z
+# 3s5z_vs_3s5z
+# 8m_vs_8m
+# 2s3z_vs_3s5z
+# 2s3z_vs_8m
+# 2s3z_vs_corridor
+# 3s5z_vs_8m

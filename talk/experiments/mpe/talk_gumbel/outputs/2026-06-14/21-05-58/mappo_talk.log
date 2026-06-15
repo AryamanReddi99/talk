@@ -1,0 +1,104 @@
+[2026-06-14 21:08:05,969][jax._src.callback][ERROR] - jax.io_callback failed
+Traceback (most recent call last):
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 499, in io_callback_impl
+    return tree_util.tree_map(np.asarray, callback(*args))
+                                          ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 71, in __call__
+    return tree_util.tree_leaves(self.callback_func(*args, **kwargs))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/experiments/mpe/talk_gumbel/mappo_talk.py", line 118, in rollout_io_callback
+    log_mappo_talk_rollout_video_callback(
+  File "/home/aryaman/Desktop/project-talk/talk/environments/mpe/rollout_viz.py", line 719, in log_mappo_talk_rollout_video_callback
+    state_seq, _ = run_talk_eval_rollout(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/environments/mpe/rollout_viz.py", line 424, in run_talk_eval_rollout
+    hidden, logits, msg_tokens, msg_valid, _, _ = actor.apply(
+                                                  ^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/traceback_util.py", line 180, in reraise_with_filtered_traceback
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 2235, in apply
+    return apply(
+           ^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/core/scope.py", line 1108, in wrapper
+    y = fn(root, *args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 3015, in scope_fn
+    return fn(module.clone(parent=scope, _deep_clone=True), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 699, in wrapped_module_method
+    return self._call_wrapped_method(fun, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 1216, in _call_wrapped_method
+    y = run_fun(self, *args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/networks/talk_decoder.py", line 252, in step
+    msg_tokens, msg_valid, expected_len = self._decode(
+                                          ^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 699, in wrapped_module_method
+    return self._call_wrapped_method(fun, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 1216, in _call_wrapped_method
+    y = run_fun(self, *args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/networks/talk_decoder.py", line 163, in _decode
+    v_ctx = self.v_ctx(hidden)[:, None, :]
+            ^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 699, in wrapped_module_method
+    return self._call_wrapped_method(fun, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 1216, in _call_wrapped_method
+    y = run_fun(self, *args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/linear.py", line 251, in __call__
+    kernel = self.param(
+             ^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/linen/module.py", line 1872, in param
+    v = self.scope.param(name, init_fn, *init_args, unbox=unbox, **init_kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/flax/core/scope.py", line 979, in param
+    abs_value = jax.eval_shape(
+                ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/traceback_util.py", line 180, in reraise_with_filtered_traceback
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/api.py", line 2637, in eval_shape
+    return jit(fun).eval_shape(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/traceback_util.py", line 180, in reraise_with_filtered_traceback
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/pjit.py", line 487, in eval_shape
+    p, _ = _infer_params(fun, jit_info, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/pjit.py", line 769, in _infer_params
+    p, args_flat = _infer_params_impl(
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/pjit.py", line 651, in _infer_params_impl
+    jaxpr, consts, out_avals, attrs_tracked = _create_pjit_jaxpr(
+                                              ^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/linear_util.py", line 335, in memoized_fun
+    ans = call(fun, *args)
+          ^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/pjit.py", line 1315, in _create_pjit_jaxpr
+    jaxpr, global_out_avals, consts, attrs_tracked = pe.trace_to_jaxpr_dynamic(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/profiler.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/interpreters/partial_eval.py", line 2192, in trace_to_jaxpr_dynamic
+    jaxpr, consts, attrs_tracked = trace.to_jaxpr(out_tracers)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/interpreters/partial_eval.py", line 2083, in to_jaxpr
+    return self.frame.to_jaxpr(self, out_tracers)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/interpreters/partial_eval.py", line 1668, in to_jaxpr
+    jaxpr, constvals = _const_folding_and_forwarding(jaxpr, constvals)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/interpreters/partial_eval.py", line 1748, in _const_folding_and_forwarding
+    jaxpr_effects = make_jaxpr_effects(new_constvars, jaxpr.invars, new_outvars,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/interpreters/partial_eval.py", line 1594, in make_jaxpr_effects
+    mut_arrays = set()
+                 ^^^^^
+KeyboardInterrupt

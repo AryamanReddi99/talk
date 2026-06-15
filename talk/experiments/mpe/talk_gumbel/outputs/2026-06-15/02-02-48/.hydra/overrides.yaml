@@ -1,0 +1,6 @@
+- sight_range=0.5
+- num_seeds=3
+- log_rollout_videos=false
+- min_msg_len=1
+- attn_dim=64
+- talk_config=h3_minlen1_attn64

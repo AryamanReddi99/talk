@@ -1,0 +1,31 @@
+[2026-06-10 18:38:52,309][jax._src.callback][ERROR] - jax.io_callback failed
+Traceback (most recent call last):
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 499, in io_callback_impl
+    return tree_util.tree_map(np.asarray, callback(*args))
+                                          ^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/callback.py", line 71, in __call__
+    return tree_util.tree_leaves(self.callback_func(*args, **kwargs))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/experiments/mpe/tarmac/mappo_tarmac.py", line 119, in rollout_io_callback
+    log_mappo_tarmac_rollout_video_callback(
+  File "/home/aryaman/Desktop/project-talk/talk/environments/mpe/rollout_viz.py", line 581, in log_mappo_tarmac_rollout_video_callback
+    state_seq, _ = run_tarmac_eval_rollout(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/Desktop/project-talk/talk/environments/mpe/rollout_viz.py", line 336, in run_tarmac_eval_rollout
+    team_positions = positions[0, :, :]
+                     ~~~~~~~~~^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/array.py", line 371, in __getitem__
+    return lax_numpy._rewriting_take(self, idx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/numpy/lax_numpy.py", line 11939, in _rewriting_take
+    return _gather(arr, treedef, static_idx, dynamic_idx, indices_are_sorted,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/numpy/lax_numpy.py", line 11948, in _gather
+    indexer = _index_to_gather(shape(arr), idx)  # shared with _scatter_update
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/numpy/lax_numpy.py", line 12064, in _index_to_gather
+    idx = _canonicalize_tuple_index(len(x_shape), idx)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aryaman/anaconda3/envs/talk/lib/python3.12/site-packages/jax/_src/numpy/lax_numpy.py", line 12383, in _canonicalize_tuple_index
+    raise IndexError(
+IndexError: Too many indices: 2-dimensional array indexed with 3 regular indices.
