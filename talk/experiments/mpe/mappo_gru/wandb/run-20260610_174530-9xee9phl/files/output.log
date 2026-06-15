@@ -1,2 +1,0 @@
-[34m[1mwandb[0m: [33mWARNING[0m Tried to log to step 402 that is less than the current step 3284992. Steps must be monotonically increasing, so this data will be ignored. See https://wandb.me/define-metric to log data out of order.
-[34m[1mwandb[0m: [33mWARNING[0m Tried to log to step 805 that is less than the current step 6586368. Steps must be monotonically increasing, so this data will be ignored. See https://wandb.me/define-metric to log data out of order.

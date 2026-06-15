@@ -1,1 +1,0 @@
-{"total_loss":5.60499684070237e-05,"win_rate":1,"value_loss":6.096392826293595e-05,"ratio":0.9999996423721313,"_timestamp":1.7809128255181704e+09,"env_step":9.986048e+06,"approx_kl":6.188292900333181e-08,"returns":2,"clip_frac":0,"_runtime":219.263715992,"actor_loss":-4.913960765406955e-06,"_step":9986048,"entropy":0.43035727739334106,"ratio_0":1,"_wandb":{"runtime":219}}
