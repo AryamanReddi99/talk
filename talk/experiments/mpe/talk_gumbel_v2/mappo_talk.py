@@ -1,4 +1,11 @@
-"""Team-shared MAPPO + communication on JaxMARL MPE."""
+"""Team-shared MAPPO + Talk-Codebook communication on JaxMARL MPE.
+
+Per-agent, hidden-conditioned codebook channel: the transmitted value is a
+Gumbel-selected row of the sender's codebook. Training uses the sender's
+embedding e_i[k_i] (gradient flows to the sender); a detached, attention-weighted
+auxiliary L2 loss pulls each receiver's embedding e_j[k_i] toward the sender row.
+A separate receiver-side rollout (e_j[k_i]) measures the deployment "test return".
+"""
 
 import datetime
 from typing import Any, Dict, NamedTuple, Optional
@@ -12,7 +19,7 @@ import optax
 from flax.training.train_state import TrainState
 from omegaconf import OmegaConf
 
-from talk.environments.mpe.rollout_viz import log_mappo_talk_rollout_video_callback
+from talk.environments.mpe.rollout_viz import log_mappo_talk_v2_rollout_video_callback
 from talk.experiments.mpe.env_utils import (
     ally_comm_reachability,
     batchify,
@@ -24,7 +31,7 @@ from talk.experiments.mpe.env_utils import (
     unbatchify,
 )
 from talk.networks.gru import CriticDiscreteRNN, ScannedRNN
-from talk.networks.talk_decoder import ActorTalkRNN
+from talk.networks.talk_codebook import ActorTalkCodebookRNN
 from talk.utils.wandb_multilogger import WandbMultiLogger
 
 LOGGER: Optional[WandbMultiLogger] = None
@@ -55,14 +62,12 @@ def make_train(config: Dict[str, Any]):
     config["num_actors"] = num_actors
     config["num_updates"] = num_updates
 
-    vocab_content = int(config["vocab_content"])
-    vocab_embed_dim = int(config["vocab_embed_dim"])
-    attn_dim = int(config["attn_dim"])
-    max_msg_len = int(config["max_msg_len"])
-    min_msg_len = int(config.get("min_msg_len", 0))
+    sig_dim = int(config["sig_dim"])
+    codebook_size = int(config["codebook_size"])
+    vocab_dim = int(config["vocab_dim"])
     gumbel_tau = float(config["gumbel_tau"])
-    len_aux_coef = float(config["len_aux_coef"])
-    vocab_size = vocab_content + 2
+    aux_coef = float(config["aux_coef"])
+    eval_every = max(1, int(config.get("eval_every", 1)))
     comm_range = float(config.get("comm_range", -1))
     scan_unroll = int(config.get("trajectory_scan_unroll", 8))
     num_minibatches = int(config["num_minibatches"])
@@ -77,14 +82,24 @@ def make_train(config: Dict[str, Any]):
     critic_lr = float(config["lr_critic"])
 
     def _actor_lr_schedule(count):
-        frac = 1.0 - (count // (config["num_minibatches"] * config["num_epochs"])) / num_updates
+        frac = (
+            1.0
+            - (count // (config["num_minibatches"] * config["num_epochs"]))
+            / num_updates
+        )
         return actor_lr * frac
 
     def _critic_lr_schedule(count):
-        frac = 1.0 - (count // (config["num_minibatches"] * config["num_epochs"])) / num_updates
+        frac = (
+            1.0
+            - (count // (config["num_minibatches"] * config["num_epochs"]))
+            / num_updates
+        )
         return critic_lr * frac
 
-    log_rollout_videos = config.get("log_rollout_videos", True) and config.get("use_wandb", True)
+    log_rollout_videos = config.get("log_rollout_videos", True) and config.get(
+        "use_wandb", True
+    )
     rollout_fractions = config.get("log_rollout_fractions", [0.0, 0.25, 0.5, 0.75, 1.0])
     checkpoint_steps = jnp.array(
         sorted(
@@ -104,11 +119,9 @@ def make_train(config: Dict[str, Any]):
         "activation": config["activation"],
         "fc_dim_size": config["fc_dim_size"],
         "gru_hidden_size": config["gru_hidden_size"],
-        "vocab_content": vocab_content,
-        "vocab_embed_dim": vocab_embed_dim,
-        "attn_dim": attn_dim,
-        "max_msg_len": max_msg_len,
-        "min_msg_len": min_msg_len,
+        "sig_dim": sig_dim,
+        "codebook_size": codebook_size,
+        "vocab_dim": vocab_dim,
         "gumbel_tau": gumbel_tau,
         "rollout_length_multiplier": float(config.get("rollout_length_multiplier", 1.0)),
         "rollout_eval_seed": int(config.get("rollout_eval_seed", 42)),
@@ -117,7 +130,7 @@ def make_train(config: Dict[str, Any]):
     }
 
     def rollout_io_callback(should_log, exp_id, update_step, log_step, actor_params):
-        log_mappo_talk_rollout_video_callback(
+        log_mappo_talk_v2_rollout_video_callback(
             should_log,
             exp_id,
             update_step,
@@ -133,37 +146,43 @@ def make_train(config: Dict[str, Any]):
         ac_h_flat: jnp.ndarray,
         obs_flat: jnp.ndarray,
         done_flat: jnp.ndarray,
-        prev_tokens: jnp.ndarray,
-        prev_valid: jnp.ndarray,
+        prev_signature: jnp.ndarray,
+        prev_codebook: jnp.ndarray,
+        prev_onehot: jnp.ndarray,
         msg_keys_flat: jnp.ndarray,
         ally_pos: jnp.ndarray,
+        receiver_lookup: bool = False,
     ):
         h = to_env_major(ac_h_flat, num_envs, num_agents)
         obs = to_env_major(obs_flat, num_envs, num_agents)
         done = to_env_major(done_flat, num_envs, num_agents)
         msg_keys = to_env_major(msg_keys_flat, num_envs, num_agents)
 
-        def _one_env(h_e, obs_e, done_e, pt_e, pv_e, key_e, pos_e):
+        def _one_env(h_e, obs_e, done_e, ps_e, pc_e, po_e, key_e, pos_e):
             reach = ally_comm_reachability(pos_e, comm_range)
             return actor_apply(
                 params,
                 h_e,
                 obs_e,
-                pt_e,
-                pv_e,
+                ps_e,
+                pc_e,
+                po_e,
                 done_e,
-                reach,
                 key_e,
-                method=ActorTalkRNN.step,
+                reach,
+                receiver_lookup=receiver_lookup,
+                deterministic=False,
+                method=ActorTalkCodebookRNN.step,
             )
 
-        new_h, logits, msg_tokens, msg_valid, _, _ = jax.vmap(_one_env)(
-            h, obs, done, prev_tokens, prev_valid, msg_keys, ally_pos
+        new_h, sig, cb, onehot, logits, _aux, _comm = jax.vmap(_one_env)(
+            h, obs, done, prev_signature, prev_codebook, prev_onehot, msg_keys, ally_pos
         )
         return (
             to_actor_major(new_h, num_envs, num_agents),
-            msg_tokens,
-            msg_valid,
+            sig,
+            cb,
+            onehot,
             to_actor_major(logits, num_envs, num_agents),
         )
 
@@ -171,76 +190,61 @@ def make_train(config: Dict[str, Any]):
         actor_apply,
         params,
         init_h: jnp.ndarray,
-        init_prev_tokens: jnp.ndarray,
-        init_prev_valid: jnp.ndarray,
+        init_prev_signature: jnp.ndarray,
+        init_prev_codebook: jnp.ndarray,
+        init_prev_onehot: jnp.ndarray,
         traj,
     ):
         def _scan_step(carry, inputs):
-            h, pt, pv = carry
+            h, ps, pc, po = carry
             obs_t, done_t, ally_pos_t, global_done_t, msg_key_t = inputs
 
-            def _one_env(h_e, obs_e, done_e, pt_e, pv_e, key_e, pos_e):
+            def _one_env(h_e, obs_e, done_e, ps_e, pc_e, po_e, key_e, pos_e):
                 reach = ally_comm_reachability(pos_e, comm_range)
                 return actor_apply(
                     params,
                     h_e,
                     obs_e,
-                    pt_e,
-                    pv_e,
+                    ps_e,
+                    pc_e,
+                    po_e,
                     done_e,
-                    reach,
                     key_e,
-                    method=ActorTalkRNN.step,
+                    reach,
+                    receiver_lookup=False,
+                    deterministic=False,
+                    method=ActorTalkCodebookRNN.step,
                 )
 
-            new_h, logits, msg_tokens, msg_valid, expected_len, comm_ctx = jax.vmap(
-                _one_env
-            )(h, obs_t, done_t, pt, pv, msg_key_t, ally_pos_t)
-            ep_done = global_done_t[:, :, None]
-            msg_tokens = jnp.where(ep_done[..., None], 0.0, msg_tokens)
-            msg_valid = jnp.where(ep_done, False, msg_valid)
-            return (new_h, msg_tokens, msg_valid), (
-                logits,
-                expected_len,
-                msg_tokens,
-                msg_valid,
-                comm_ctx,
+            new_h, sig, cb, onehot, logits, aux, _comm = jax.vmap(_one_env)(
+                h, obs_t, done_t, ps, pc, po, msg_key_t, ally_pos_t
             )
+            ep_done = global_done_t[:, 0:1, None]
+            sig = jnp.where(ep_done, 0.0, sig)
+            onehot = jnp.where(ep_done, 0.0, onehot)
+            cb = jnp.where(global_done_t[:, 0:1, None, None], 0.0, cb)
+            return (new_h, sig, cb, onehot), (logits, aux)
 
-        _, (logits, expected_len, msg_tokens, msg_valid, comm_ctx) = jax.lax.scan(
+        _, (logits, aux) = jax.lax.scan(
             _scan_step,
-            (init_h, init_prev_tokens, init_prev_valid),
-            (
-                traj.obs,
-                traj.done,
-                traj.ally_positions,
-                traj.global_done,
-                traj.msg_key,
-            ),
+            (init_h, init_prev_signature, init_prev_codebook, init_prev_onehot),
+            (traj.obs, traj.done, traj.ally_positions, traj.global_done, traj.msg_key),
             unroll=scan_unroll,
         )
-        return (
-            distrax.Categorical(logits=logits),
-            expected_len,
-            msg_tokens,
-            msg_valid,
-            comm_ctx,
-        )
+        return distrax.Categorical(logits=logits), jnp.mean(aux)
 
     def train(rng: jnp.ndarray, exp_id: int):
         obs_dim = int(env.observation_space(env.agents[0]).shape[0])
         action_dim = int(env.action_space(env.agents[0]).n)
         world_state_dim = env.world_state_size()
 
-        actor_network = ActorTalkRNN(
+        actor_network = ActorTalkCodebookRNN(
             action_dim=action_dim,
             hidden_size=config["gru_hidden_size"],
             fc_dim_size=config["fc_dim_size"],
-            vocab_content=vocab_content,
-            vocab_embed_dim=vocab_embed_dim,
-            attn_dim=attn_dim,
-            max_msg_len=max_msg_len,
-            min_msg_len=min_msg_len,
+            sig_dim=sig_dim,
+            codebook_size=codebook_size,
+            vocab_dim=vocab_dim,
             gumbel_tau=gumbel_tau,
             activation=config["activation"],
         )
@@ -256,12 +260,13 @@ def make_train(config: Dict[str, Any]):
             rng_actor,
             ac_init_h,
             jnp.zeros((num_agents, obs_dim)),
-            jnp.zeros((num_agents, max_msg_len, vocab_size)),
-            jnp.zeros((num_agents, max_msg_len), dtype=bool),
+            jnp.zeros((num_agents, sig_dim)),
+            jnp.zeros((num_agents, codebook_size, vocab_dim)),
+            jnp.zeros((num_agents, codebook_size)),
             jnp.zeros((num_agents,), dtype=bool),
+            jnp.zeros((num_agents, 2), dtype=jnp.uint32),
             jnp.ones((num_agents, num_agents), dtype=bool),
-            jax.random.split(rng_actor, num_agents),
-            method=ActorTalkRNN.step,
+            method=ActorTalkCodebookRNN.step,
         )
 
         cr_init_x = (
@@ -301,13 +306,79 @@ def make_train(config: Dict[str, Any]):
             tx=critic_tx,
         )
 
+        def _collect_eval(actor_params, rng):
+            """Receiver-side (deployment) rollout: comm uses e_j[k_i]. Returns mean
+            completed-episode return ("test return")."""
+            rng, reset_rng = jax.random.split(rng)
+            reset_rng = jax.random.split(reset_rng, num_envs)
+            obsv, env_state = jax.vmap(env.reset)(reset_rng)
+            ac_h = ScannedRNN.initialize_carry(num_actors, config["gru_hidden_size"])
+            prev_signature = jnp.zeros((num_envs, num_agents, sig_dim))
+            prev_codebook = jnp.zeros((num_envs, num_agents, codebook_size, vocab_dim))
+            prev_onehot = jnp.zeros((num_envs, num_agents, codebook_size))
+            last_done = jnp.zeros((num_actors,), dtype=bool)
+
+            def _eval_step(carry, _):
+                ac_h, env_state, last_obs, last_done, ps, pc, po, rng = carry
+                rng, rng_act, rng_msg, rng_step = jax.random.split(rng, 4)
+                obs_batch = batchify(last_obs, env.agents, num_actors)
+                ally_pos = mpe_agent_positions(env_state, num_agents)
+                msg_keys = jax.random.split(rng_msg, num_actors)
+                ac_h, sig, cb, onehot, logits = _talk_env_step(
+                    actor_network.apply,
+                    actor_params,
+                    ac_h,
+                    obs_batch,
+                    last_done,
+                    ps,
+                    pc,
+                    po,
+                    msg_keys,
+                    ally_pos,
+                    receiver_lookup=True,
+                )
+                pi = distrax.Categorical(logits=logits)
+                action = pi.sample(seed=rng_act)
+                env_act = unbatchify(action.squeeze(), env.agents, num_envs, num_agents)
+                env_act = {k: v.squeeze() for k, v in env_act.items()}
+
+                step_rng = jax.random.split(rng_step, num_envs)
+                obsv, env_state, reward, done, info = jax.vmap(env.step)(
+                    step_rng, env_state, env_act
+                )
+                done_batch = batchify(done, env.agents, num_actors).squeeze()
+                global_done = done["__all__"]
+                ep_done = global_done[:, None, None]
+                ps_next = jnp.where(ep_done, 0.0, sig)
+                pc_next = jnp.where(global_done[:, None, None, None], 0.0, cb)
+                po_next = jnp.where(ep_done, 0.0, onehot)
+                carry = (ac_h, env_state, obsv, done_batch, ps_next, pc_next, po_next, rng)
+                out = (info["returned_episode"], info["returned_episode_returns"])
+                return carry, out
+
+            init = (
+                ac_h,
+                env_state,
+                obsv,
+                last_done,
+                prev_signature,
+                prev_codebook,
+                prev_onehot,
+                rng,
+            )
+            _, (ep_done, ep_ret) = jax.lax.scan(_eval_step, init, None, num_steps)
+            mask = ep_done[:, :, 0]
+            ret = ep_ret[:, :, 0]
+            return jnp.sum(ret * mask) / (jnp.sum(mask) + 1e-8)
+
         rng, rng_reset = jax.random.split(rng)
         reset_rng = jax.random.split(rng_reset, num_envs)
         obsv, env_state = jax.vmap(env.reset)(reset_rng)
         ac_hstate = ScannedRNN.initialize_carry(num_actors, config["gru_hidden_size"])
         cr_hstate = ScannedRNN.initialize_carry(num_actors, config["gru_hidden_size"])
-        prev_tokens = jnp.zeros((num_envs, num_agents, max_msg_len, vocab_size))
-        prev_valid = jnp.zeros((num_envs, num_agents, max_msg_len), dtype=bool)
+        prev_signature = jnp.zeros((num_envs, num_agents, sig_dim))
+        prev_codebook = jnp.zeros((num_envs, num_agents, codebook_size, vocab_dim))
+        prev_onehot = jnp.zeros((num_envs, num_agents, codebook_size))
 
         def _update_step(update_runner_state, _):
             runner_state, update_step = update_runner_state
@@ -319,8 +390,9 @@ def make_train(config: Dict[str, Any]):
                     last_obs,
                     last_done,
                     hstates,
-                    prev_tokens_carry,
-                    prev_valid_carry,
+                    prev_sig_carry,
+                    prev_cb_carry,
+                    prev_oh_carry,
                     rng,
                 ) = runner_state
 
@@ -328,16 +400,18 @@ def make_train(config: Dict[str, Any]):
                 obs_batch = batchify(last_obs, env.agents, num_actors)
                 ally_pos = mpe_agent_positions(env_state, num_agents)
                 msg_keys = jax.random.split(rng_msg, num_actors)
-                ac_h, msg_tokens, msg_valid, logits = _talk_env_step(
+                ac_h, sig, cb, onehot, logits = _talk_env_step(
                     actor_network.apply,
                     train_states[0].params,
                     hstates[0],
                     obs_batch,
                     last_done,
-                    prev_tokens_carry,
-                    prev_valid_carry,
+                    prev_sig_carry,
+                    prev_cb_carry,
+                    prev_oh_carry,
                     msg_keys,
                     ally_pos,
+                    receiver_lookup=False,
                 )
                 pi = distrax.Categorical(logits=logits)
                 action = pi.sample(seed=rng_act)
@@ -359,8 +433,9 @@ def make_train(config: Dict[str, Any]):
                 done_batch = batchify(done, env.agents, num_actors).squeeze()
                 global_done = done["__all__"]
                 ep_done = global_done[:, None, None]
-                prev_tokens_next = jnp.where(ep_done[..., None], 0.0, msg_tokens)
-                prev_valid_next = jnp.where(ep_done, False, msg_valid)
+                prev_sig_next = jnp.where(ep_done, 0.0, sig)
+                prev_cb_next = jnp.where(global_done[:, None, None, None], 0.0, cb)
+                prev_oh_next = jnp.where(ep_done, 0.0, onehot)
 
                 transition = Transition(
                     global_done=jnp.tile(done["__all__"], env.num_agents),
@@ -381,15 +456,17 @@ def make_train(config: Dict[str, Any]):
                     obsv,
                     done_batch,
                     (ac_h, cr_h),
-                    prev_tokens_next,
-                    prev_valid_next,
+                    prev_sig_next,
+                    prev_cb_next,
+                    prev_oh_next,
                     rng,
                 )
                 return runner_state, transition
 
             init_hstates = runner_state[4]
-            prev_tokens_init = runner_state[5]
-            prev_valid_init = runner_state[6]
+            prev_sig_init = runner_state[5]
+            prev_cb_init = runner_state[6]
+            prev_oh_init = runner_state[7]
             runner_state, traj_batch = jax.lax.scan(_env_step, runner_state, None, num_steps)
             (
                 train_states,
@@ -397,8 +474,9 @@ def make_train(config: Dict[str, Any]):
                 last_obs,
                 last_done,
                 hstates,
-                prev_tokens,
-                prev_valid,
+                prev_signature,
+                prev_codebook,
+                prev_onehot,
                 rng,
             ) = runner_state
 
@@ -445,18 +523,26 @@ def make_train(config: Dict[str, Any]):
             def _update_epoch(update_state, _):
                 def _update_minbatch(train_states, batch_info):
                     actor_state, critic_state = train_states
-                    ac_h, cr_h, pt_init, pv_init, traj_mb, gae_mb, target_mb = batch_info
+                    (
+                        ac_h,
+                        cr_h,
+                        ps_init,
+                        pc_init,
+                        po_init,
+                        traj_mb,
+                        gae_mb,
+                        target_mb,
+                    ) = batch_info
 
-                    def _actor_loss(params, init_h, pt0, pv0, mb_traj, mb_gae):
-                        pi, expected_len, msg_tokens, msg_valid, comm_ctx = (
-                            _actor_trajectory(
-                                actor_network.apply,
-                                params,
-                                init_h,
-                                pt0,
-                                pv0,
-                                mb_traj,
-                            )
+                    def _actor_loss(params, init_h, ps0, pc0, po0, mb_traj, mb_gae):
+                        pi, aux_loss = _actor_trajectory(
+                            actor_network.apply,
+                            params,
+                            init_h,
+                            ps0,
+                            pc0,
+                            po0,
+                            mb_traj,
                         )
                         log_prob = pi.log_prob(mb_traj.action)
                         logratio = log_prob - mb_traj.log_prob
@@ -468,39 +554,18 @@ def make_train(config: Dict[str, Any]):
                         entropy = pi.entropy().mean()
                         approx_kl = ((ratio - 1.0) - logratio).mean()
                         clip_frac = jnp.mean(jnp.abs(ratio - 1.0) > clip_eps)
-                        expected_msg_len = expected_len.mean()
                         actor_loss = (
                             loss_actor
                             - config["ent_coef"] * entropy
-                            + len_aux_coef * expected_msg_len
+                            + aux_coef * aux_loss
                         )
-
-                        valid_f = msg_valid.astype(jnp.float32)
-                        lengths = valid_f.sum(axis=-1)
-                        true_msg_len = lengths.mean()
-                        silence_rate = (lengths == 0).mean()
-                        comm_ctx_norm = jnp.linalg.norm(comm_ctx, axis=-1).mean()
-
-                        token_counts = (
-                            msg_tokens * valid_f[..., None]
-                        ).sum(axis=(0, 1, 2, 3))
-                        content_counts = token_counts[2:]
-                        token_probs = content_counts / (content_counts.sum() + 1e-8)
-                        token_entropy = -jnp.sum(
-                            token_probs * jnp.log(token_probs + 1e-12)
-                        )
-
                         return actor_loss, (
                             loss_actor,
                             entropy,
                             ratio,
                             approx_kl,
                             clip_frac,
-                            expected_msg_len,
-                            true_msg_len,
-                            silence_rate,
-                            token_entropy,
-                            comm_ctx_norm,
+                            aux_loss,
                         )
 
                     def _critic_loss(params, init_h, mb_traj, mb_targets):
@@ -510,7 +575,9 @@ def make_train(config: Dict[str, Any]):
                         )
                         done = mb_traj.done.reshape(mb_traj.done.shape[0], mb_actors)
                         init_h_flat = init_h.reshape(mb_actors, -1)
-                        _, value = critic_network.apply(params, init_h_flat, (ws, done))
+                        _, value = critic_network.apply(
+                            params, init_h_flat, (ws, done)
+                        )
                         value = value.reshape(mb_traj.value.shape)
                         clipped = mb_traj.value + (value - mb_traj.value).clip(-clip_eps, clip_eps)
                         loss_v = jnp.square(value - mb_targets)
@@ -521,7 +588,7 @@ def make_train(config: Dict[str, Any]):
 
                     actor_grad_fn = jax.value_and_grad(_actor_loss, has_aux=True)
                     actor_out, actor_grads = actor_grad_fn(
-                        actor_state.params, ac_h, pt_init, pv_init, traj_mb, gae_mb
+                        actor_state.params, ac_h, ps_init, pc_init, po_init, traj_mb, gae_mb
                     )
                     critic_grad_fn = jax.value_and_grad(_critic_loss, has_aux=True)
                     critic_out, critic_grads = critic_grad_fn(
@@ -539,22 +606,16 @@ def make_train(config: Dict[str, Any]):
                         "ratio": actor_out[1][2],
                         "approx_kl": actor_out[1][3],
                         "clip_frac": actor_out[1][4],
-                        "expected_msg_len": actor_out[1][5],
-                        "msg_len": actor_out[1][6],
-                        "silence_rate": actor_out[1][7],
-                        "token_entropy": actor_out[1][8],
-                        "comm_ctx_norm": actor_out[1][9],
-                        "actor_grad_norm": optax.global_norm(actor_grads),
-                        "critic_grad_norm": optax.global_norm(critic_grads),
-                        "gumbel_tau": jnp.asarray(gumbel_tau, dtype=jnp.float32),
+                        "aux_loss": actor_out[1][5],
                     }
                     return (actor_state, critic_state), loss_info
 
                 (
                     train_states,
                     init_hstates,
-                    prev_tokens_init,
-                    prev_valid_init,
+                    prev_sig_init,
+                    prev_cb_init,
+                    prev_oh_init,
                     trajectory,
                     gae,
                     target,
@@ -564,12 +625,11 @@ def make_train(config: Dict[str, Any]):
 
                 init_h_env = to_env_major(init_hstates[0], num_envs, num_agents)
                 init_c_env = to_env_major(init_hstates[1], num_envs, num_agents)
-                prev_tokens_env = prev_tokens_init
-                prev_valid_env = prev_valid_init
+                prev_sig_env = prev_sig_init
+                prev_cb_env = prev_cb_init
+                prev_oh_env = prev_oh_init
                 traj_env = Transition(
-                    global_done=traj_field_to_env_major(
-                        trajectory.global_done, num_envs, num_agents
-                    ),
+                    global_done=traj_field_to_env_major(trajectory.global_done, num_envs, num_agents),
                     done=traj_field_to_env_major(trajectory.done, num_envs, num_agents),
                     action=traj_field_to_env_major(trajectory.action, num_envs, num_agents),
                     value=traj_field_to_env_major(trajectory.value, num_envs, num_agents),
@@ -583,9 +643,7 @@ def make_train(config: Dict[str, Any]):
                     ally_positions=traj_field_to_env_major(
                         trajectory.ally_positions, num_envs, num_agents
                     ),
-                    msg_key=traj_field_to_env_major(
-                        trajectory.msg_key, num_envs, num_agents
-                    ),
+                    msg_key=traj_field_to_env_major(trajectory.msg_key, num_envs, num_agents),
                 )
                 gae_env = traj_field_to_env_major(gae, num_envs, num_agents)
                 target_env = traj_field_to_env_major(target, num_envs, num_agents)
@@ -593,11 +651,14 @@ def make_train(config: Dict[str, Any]):
                 perm = jax.random.permutation(rng_perm, num_envs)
                 init_h_mb = init_h_env[perm].reshape(num_minibatches, mb_envs, num_agents, -1)
                 init_c_mb = init_c_env[perm].reshape(num_minibatches, mb_envs, num_agents, -1)
-                prev_tokens_mb = prev_tokens_env[perm].reshape(
-                    num_minibatches, mb_envs, num_agents, max_msg_len, vocab_size
+                prev_sig_mb = prev_sig_env[perm].reshape(
+                    num_minibatches, mb_envs, num_agents, sig_dim
                 )
-                prev_valid_mb = prev_valid_env[perm].reshape(
-                    num_minibatches, mb_envs, num_agents, max_msg_len
+                prev_cb_mb = prev_cb_env[perm].reshape(
+                    num_minibatches, mb_envs, num_agents, codebook_size, vocab_dim
+                )
+                prev_oh_mb = prev_oh_env[perm].reshape(
+                    num_minibatches, mb_envs, num_agents, codebook_size
                 )
                 traj_mb = Transition(
                     global_done=_reshape_env_minibatches(traj_env.global_done, perm),
@@ -618,8 +679,9 @@ def make_train(config: Dict[str, Any]):
                 minibatches = (
                     init_h_mb,
                     init_c_mb,
-                    prev_tokens_mb,
-                    prev_valid_mb,
+                    prev_sig_mb,
+                    prev_cb_mb,
+                    prev_oh_mb,
                     traj_mb,
                     gae_mb,
                     target_mb,
@@ -628,8 +690,9 @@ def make_train(config: Dict[str, Any]):
                 update_state = (
                     train_states,
                     init_hstates,
-                    prev_tokens_init,
-                    prev_valid_init,
+                    prev_sig_init,
+                    prev_cb_init,
+                    prev_oh_init,
                     trajectory,
                     gae,
                     target,
@@ -640,8 +703,9 @@ def make_train(config: Dict[str, Any]):
             update_state = (
                 train_states,
                 init_hstates,
-                prev_tokens_init,
-                prev_valid_init,
+                prev_sig_init,
+                prev_cb_init,
+                prev_oh_init,
                 traj_batch,
                 advantages,
                 targets,
@@ -654,12 +718,23 @@ def make_train(config: Dict[str, Any]):
             loss_info = jax.tree.map(lambda x: x.mean(), loss_info)
 
             train_states = update_state[0]
+            rng = update_state[-1]
+
+            rng, rng_eval = jax.random.split(rng)
+            do_eval = jnp.mod(update_step, eval_every) == 0
+            test_returns = jax.lax.cond(
+                do_eval,
+                lambda r: _collect_eval(train_states[0].params, r),
+                lambda r: jnp.array(jnp.nan, dtype=jnp.float32),
+                rng_eval,
+            )
+
             metric = jax.tree.map(
                 lambda x: x.reshape((num_steps, num_envs, num_agents)),
                 traj_batch.info,
             )
             metric["loss"] = loss_info
-            rng = update_state[-1]
+            metric["test_returns"] = test_returns
 
             def _log_callback(metric, exp_id):
                 episode_mask = metric["returned_episode"][:, :, 0]
@@ -670,6 +745,9 @@ def make_train(config: Dict[str, Any]):
                     "env_step": env_step,
                     **metric["loss"],
                 }
+                test_returns = float(np.asarray(metric["test_returns"]))
+                if not np.isnan(test_returns):
+                    payload["test_returns"] = test_returns
                 if LOGGER is not None:
                     log_payload = {k: float(np.asarray(v)) for k, v in payload.items()}
                     LOGGER.log(
@@ -705,8 +783,9 @@ def make_train(config: Dict[str, Any]):
                 last_obs,
                 last_done,
                 hstates,
-                prev_tokens,
-                prev_valid,
+                prev_signature,
+                prev_codebook,
+                prev_onehot,
                 rng,
             )
             return (runner_state, update_step), metric
@@ -718,11 +797,14 @@ def make_train(config: Dict[str, Any]):
             obsv,
             jnp.zeros((num_actors,), dtype=bool),
             (ac_hstate, cr_hstate),
-            prev_tokens,
-            prev_valid,
+            prev_signature,
+            prev_codebook,
+            prev_onehot,
             rng_runner,
         )
-        runner_state, _ = jax.lax.scan(_update_step, (runner_state, 0), None, num_updates)
+        runner_state, _ = jax.lax.scan(
+            _update_step, (runner_state, 0), None, num_updates
+        )
         return {"runner_state": runner_state}
 
     return train
@@ -751,7 +833,7 @@ def main(config):
         rng_seeds = jax.random.split(rng, config["num_seeds"])
         exp_ids = jnp.arange(config["num_seeds"])
 
-        print("Compiling MAPPO-TarMAC MPE...")
+        print("Compiling MAPPO-TalkCodebook MPE...")
         train_fn = jax.jit(jax.vmap(make_train(config)))
         print("Running...")
         jax.block_until_ready(train_fn(rng_seeds, exp_ids))

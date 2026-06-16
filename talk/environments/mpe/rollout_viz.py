@@ -23,6 +23,7 @@ from talk.networks.gru import (
 )
 from talk.networks.tarmac import ActorTarMACRNN
 from talk.networks.talk_decoder import ActorTalkRNN
+from talk.networks.talk_codebook import ActorTalkCodebookRNN
 from talk.networks.mlp import ActorContinuous, ActorDiscrete
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -308,6 +309,139 @@ def run_tarmac_eval_rollout(
         if bool(done_env):
             break
     return (state_seq, total_reward)
+
+
+def run_talk_codebook_eval_rollout(
+    adapter,
+    actor_params,
+    rng_key,
+    max_steps,
+    activation,
+    fc_dim_size,
+    gru_hidden_size,
+    sig_dim,
+    codebook_size,
+    vocab_dim,
+    gumbel_tau,
+    comm_range,
+):
+    """Receiver-side (deployment) single-env Talk-Codebook rollout.
+
+    Comm uses each receiver's own codebook row at the received index
+    (``receiver_lookup=True``); argmax token selection and argmax actions.
+    """
+    params = (
+        actor_params[0]
+        if isinstance(actor_params, (tuple, list)) and len(actor_params) == 1
+        else actor_params
+    )
+    action_dim = int(max(adapter.action_dims_py))
+    obs_dim = int(adapter.max_obs_dim)
+    num_agents = adapter.num_agents
+    actor = ActorTalkCodebookRNN(
+        action_dim=action_dim,
+        hidden_size=gru_hidden_size,
+        fc_dim_size=fc_dim_size,
+        sig_dim=sig_dim,
+        codebook_size=codebook_size,
+        vocab_dim=vocab_dim,
+        gumbel_tau=gumbel_tau,
+        activation=activation,
+    )
+    key = rng_key
+    (obs, _, positions, state) = adapter.reset(key)
+    hidden = ScannedRNN.initialize_carry(num_agents, gru_hidden_size)
+    prev_signature = jnp.zeros((num_agents, sig_dim))
+    prev_codebook = jnp.zeros((num_agents, codebook_size, vocab_dim))
+    prev_onehot = jnp.zeros((num_agents, codebook_size))
+    done = jnp.zeros((num_agents,), dtype=bool)
+    state_seq = [state]
+    total_reward = 0
+    for _ in range(max_steps):
+        reach = ally_comm_reachability(positions, comm_range)
+        agent_obs = obs[:, :obs_dim]
+        (key, key_msg) = jax.random.split(key)
+        msg_keys = jax.random.split(key_msg, num_agents)
+        (hidden, sig, cb, onehot, logits, _aux, _comm) = actor.apply(
+            params,
+            hidden,
+            agent_obs,
+            prev_signature,
+            prev_codebook,
+            prev_onehot,
+            done,
+            msg_keys,
+            reach,
+            receiver_lookup=True,
+            deterministic=True,
+            method=ActorTalkCodebookRNN.step,
+        )
+        actions_d = jnp.argmax(logits, axis=-1).astype(jnp.int32)
+        actions_c = jnp.zeros((num_agents, adapter.max_action_dim), dtype=jnp.float32)
+        (key, key_step) = jax.random.split(key)
+        (obs, _, positions, state, rewards, done_env, _) = adapter.step(
+            key_step, state, actions_d, actions_c
+        )
+        done = jnp.full((num_agents,), bool(done_env), dtype=bool)
+        if bool(done_env):
+            hidden = ScannedRNN.initialize_carry(num_agents, gru_hidden_size)
+            prev_signature = jnp.zeros((num_agents, sig_dim))
+            prev_codebook = jnp.zeros((num_agents, codebook_size, vocab_dim))
+            prev_onehot = jnp.zeros((num_agents, codebook_size))
+        else:
+            prev_signature = sig
+            prev_codebook = cb
+            prev_onehot = onehot
+        state_seq.append(state)
+        total_reward += float(jnp.sum(rewards))
+        if bool(done_env):
+            break
+    return (state_seq, total_reward)
+
+
+def log_mappo_talk_v2_rollout_video_callback(
+    should_log, exp_id, update_step, actor_params, rollout_ctx, logger, log_step=None
+):
+    should_log = bool(_scalar_io_callback_arg(should_log))
+    exp_id = int(_scalar_io_callback_arg(exp_id))
+    update_step = int(_scalar_io_callback_arg(update_step))
+    if log_step is not None:
+        log_step = int(_scalar_io_callback_arg(log_step))
+    if not should_log or logger is None:
+        return None
+    if exp_id != int(rollout_ctx["log_seed"]):
+        return None
+    adapter = build_rollout_adapter(rollout_ctx)
+    max_steps = rollout_horizon_steps(adapter, rollout_ctx["rollout_length_multiplier"])
+    eval_key = jax.random.PRNGKey(int(rollout_ctx["rollout_eval_seed"]))
+    (state_seq, _) = run_talk_codebook_eval_rollout(
+        adapter,
+        actor_params,
+        eval_key,
+        max_steps,
+        activation=rollout_ctx["activation"],
+        fc_dim_size=rollout_ctx["fc_dim_size"],
+        gru_hidden_size=int(rollout_ctx["gru_hidden_size"]),
+        sig_dim=int(rollout_ctx["sig_dim"]),
+        codebook_size=int(rollout_ctx["codebook_size"]),
+        vocab_dim=int(rollout_ctx["vocab_dim"]),
+        gumbel_tau=float(rollout_ctx["gumbel_tau"]),
+        comm_range=float(rollout_ctx["comm_range"]),
+    )
+    fraction = float(update_step) / max(1, int(rollout_ctx["num_update_steps"]) - 1)
+    pct_label = f"{int(round(fraction * 100))}pct"
+    frames = render_mpe_rollout_frames(
+        adapter.env,
+        state_seq,
+        sight_range=float(rollout_ctx["sight_range"]),
+        comm_range=float(rollout_ctx.get("comm_range", -1)),
+    )
+    video_key = f"rollout/{pct_label}"
+    logger.log(
+        int(rollout_ctx["log_seed"]),
+        {video_key: _frames_to_wandb_video(frames, fps=4)},
+        step=(log_step if log_step is not None else update_step),
+    )
 
 
 def run_talk_eval_rollout(
