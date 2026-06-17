@@ -183,6 +183,30 @@ class ActorTalkCodebookRNN(nn.Module):
         )
         self_attention = jnp.mean(jnp.diagonal(attn))
         comm_norm = jnp.mean(jnp.linalg.norm(comm_ctx, axis=-1))
+
+        # codebook row diversity: mean off-diagonal cosine sim within each codebook
+        cb_norm = codebook / (
+            jnp.linalg.norm(codebook, axis=-1, keepdims=True) + 1e-8
+        )
+        gram = jnp.einsum("nmd,nld->nml", cb_norm, cb_norm)
+        off_diag = gram - jnp.eye(self.codebook_size)[None, :, :]
+        codebook_intra_cosine = jnp.sum(off_diag) / (
+            codebook.shape[0] * self.codebook_size * (self.codebook_size - 1) + 1e-8
+        )
+
+        # hidden -> codebook sensitivity: cross-agent spread ratio within one env
+        h_mean = jnp.mean(new_hidden, axis=0, keepdims=True)
+        cb_mean = jnp.mean(codebook, axis=0, keepdims=True)
+        h_spread = jnp.mean(jnp.linalg.norm(new_hidden - h_mean, axis=-1))
+        cb_spread = jnp.mean(
+            jnp.linalg.norm(
+                codebook.reshape(codebook.shape[0], -1)
+                - cb_mean.reshape(1, -1),
+                axis=-1,
+            )
+        )
+        codebook_hidden_sensitivity = cb_spread / (h_spread + 1e-8)
+
         diagnostics = jax.lax.stop_gradient(
             {
                 "raw_align_l2": raw_align_l2,
@@ -190,6 +214,8 @@ class ActorTalkCodebookRNN(nn.Module):
                 "attention_entropy": attention_entropy,
                 "self_attention": self_attention,
                 "comm_norm": comm_norm,
+                "codebook_intra_cosine": codebook_intra_cosine,
+                "codebook_hidden_sensitivity": codebook_hidden_sensitivity,
             }
         )
 

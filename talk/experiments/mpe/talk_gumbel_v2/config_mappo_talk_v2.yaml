@@ -43,7 +43,7 @@ num_agents: null
 sight_range: -1.0
 algorithm: mappo_talk_v2
 custom_name: "_new_mpe"
-talk_config: "_1_code_no_h_aux"
+talk_config: ""
 use_wandb: true
 
 log_rollout_videos: true

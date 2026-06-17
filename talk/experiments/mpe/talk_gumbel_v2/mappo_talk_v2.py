@@ -186,7 +186,7 @@ def make_train(config: Dict[str, Any]):
         traj,
     ):
         def _scan_step(carry, inputs):
-            h, ps, pc, po = carry
+            h, ps, pc, po, prev_new_h, prev_cb = carry
             obs_t, done_t, ally_pos_t, global_done_t, msg_key_t = inputs
 
             def _one_env(h_e, obs_e, done_e, ps_e, pc_e, po_e, key_e, pos_e):
@@ -209,19 +209,35 @@ def make_train(config: Dict[str, Any]):
             new_h, sig, cb, onehot, logits, aux, _comm, diag = jax.vmap(_one_env)(
                 h, obs_t, done_t, ps, pc, po, msg_key_t, ally_pos_t
             )
+            delta_h = jnp.mean(jnp.linalg.norm(new_h - prev_new_h, axis=-1))
+            delta_cb = jnp.mean(jnp.linalg.norm(cb - prev_cb, axis=(-2, -1)))
+            codebook_delta_ratio = delta_cb / (delta_h + 1e-8)
             ep_done = global_done_t[:, 0:1, None]
             sig = jnp.where(ep_done, 0.0, sig)
             onehot = jnp.where(ep_done, 0.0, onehot)
             cb = jnp.where(global_done_t[:, 0:1, None, None], 0.0, cb)
-            return (new_h, sig, cb, onehot), (logits, aux, diag)
+            return (new_h, sig, cb, onehot, new_h, cb), (
+                logits,
+                aux,
+                diag,
+                codebook_delta_ratio,
+            )
 
-        _, (logits, aux, diag) = jax.lax.scan(
+        _, (logits, aux, diag, delta_ratios) = jax.lax.scan(
             _scan_step,
-            (init_h, init_prev_signature, init_prev_codebook, init_prev_onehot),
+            (
+                init_h,
+                init_prev_signature,
+                init_prev_codebook,
+                init_prev_onehot,
+                init_h,
+                init_prev_codebook,
+            ),
             (traj.obs, traj.done, traj.ally_positions, traj.global_done, traj.msg_key),
             unroll=scan_unroll,
         )
         diag_means = jax.tree.map(jnp.mean, diag)
+        diag_means["codebook_delta_ratio"] = jnp.mean(delta_ratios)
         return distrax.Categorical(logits=logits), jnp.mean(aux), diag_means
 
     def train(rng: jnp.ndarray, exp_id: int):
