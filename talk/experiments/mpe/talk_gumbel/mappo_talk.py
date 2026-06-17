@@ -193,9 +193,9 @@ def make_train(config: Dict[str, Any]):
                     method=ActorTalkRNN.step,
                 )
 
-            new_h, logits, msg_tokens, msg_valid, expected_len, comm_ctx = jax.vmap(
-                _one_env
-            )(h, obs_t, done_t, pt, pv, msg_key_t, ally_pos_t)
+            new_h, logits, msg_tokens, msg_valid, expected_len, comm_ctx = jax.vmap(_one_env)(
+                h, obs_t, done_t, pt, pv, msg_key_t, ally_pos_t
+            )
             ep_done = global_done_t[:, :, None]
             msg_tokens = jnp.where(ep_done[..., None], 0.0, msg_tokens)
             msg_valid = jnp.where(ep_done, False, msg_valid)
@@ -448,15 +448,13 @@ def make_train(config: Dict[str, Any]):
                     ac_h, cr_h, pt_init, pv_init, traj_mb, gae_mb, target_mb = batch_info
 
                     def _actor_loss(params, init_h, pt0, pv0, mb_traj, mb_gae):
-                        pi, expected_len, msg_tokens, msg_valid, comm_ctx = (
-                            _actor_trajectory(
-                                actor_network.apply,
-                                params,
-                                init_h,
-                                pt0,
-                                pv0,
-                                mb_traj,
-                            )
+                        pi, expected_len, msg_tokens, msg_valid, comm_ctx = _actor_trajectory(
+                            actor_network.apply,
+                            params,
+                            init_h,
+                            pt0,
+                            pv0,
+                            mb_traj,
                         )
                         log_prob = pi.log_prob(mb_traj.action)
                         logratio = log_prob - mb_traj.log_prob
@@ -481,14 +479,10 @@ def make_train(config: Dict[str, Any]):
                         silence_rate = (lengths == 0).mean()
                         comm_ctx_norm = jnp.linalg.norm(comm_ctx, axis=-1).mean()
 
-                        token_counts = (
-                            msg_tokens * valid_f[..., None]
-                        ).sum(axis=(0, 1, 2, 3))
+                        token_counts = (msg_tokens * valid_f[..., None]).sum(axis=(0, 1, 2, 3))
                         content_counts = token_counts[2:]
                         token_probs = content_counts / (content_counts.sum() + 1e-8)
-                        token_entropy = -jnp.sum(
-                            token_probs * jnp.log(token_probs + 1e-12)
-                        )
+                        token_entropy = -jnp.sum(token_probs * jnp.log(token_probs + 1e-12))
 
                         return actor_loss, (
                             loss_actor,
@@ -583,9 +577,7 @@ def make_train(config: Dict[str, Any]):
                     ally_positions=traj_field_to_env_major(
                         trajectory.ally_positions, num_envs, num_agents
                     ),
-                    msg_key=traj_field_to_env_major(
-                        trajectory.msg_key, num_envs, num_agents
-                    ),
+                    msg_key=traj_field_to_env_major(trajectory.msg_key, num_envs, num_agents),
                 )
                 gae_env = traj_field_to_env_major(gae, num_envs, num_agents)
                 target_env = traj_field_to_env_major(target, num_envs, num_agents)
@@ -751,7 +743,7 @@ def main(config):
         rng_seeds = jax.random.split(rng, config["num_seeds"])
         exp_ids = jnp.arange(config["num_seeds"])
 
-        print("Compiling MAPPO-TarMAC MPE...")
+        print("Compiling MAPPO-Talk MPE...")
         train_fn = jax.jit(jax.vmap(make_train(config)))
         print("Running...")
         jax.block_until_ready(train_fn(rng_seeds, exp_ids))

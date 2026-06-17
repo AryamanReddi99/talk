@@ -61,7 +61,14 @@ class ActorTalkCodebookRNN(nn.Module):
         receiver_lookup: bool = False,
         deterministic: bool = False,
     ) -> Tuple[
-        jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray, jnp.ndarray
+        jnp.ndarray,
+        jnp.ndarray,
+        jnp.ndarray,
+        jnp.ndarray,
+        jnp.ndarray,
+        jnp.ndarray,
+        jnp.ndarray,
+        dict,
     ]:
         """One communication + policy step for N agents in one env.
 
@@ -71,7 +78,8 @@ class ActorTalkCodebookRNN(nn.Module):
 
         Returns new_hidden (N, H), signature (N, sig_dim),
                 codebook (N, M, d_vocab), onehot (N, M), action_logits (N, action_dim),
-                aux_loss (scalar), comm_ctx (N, d_vocab).
+                aux_loss (scalar), comm_ctx (N, d_vocab),
+                diagnostics (dict of detached scalar metrics for logging).
         """
         activation = _activation_fn(self.activation)
         reset = done.astype(hidden.dtype)
@@ -163,4 +171,35 @@ class ActorTalkCodebookRNN(nn.Module):
             bias_init=constant(0.0),
         )(head)
 
-        return new_hidden, signature, codebook, onehot, action_logits, aux_loss, comm_ctx
+        # diagnostics (logging only; detached so they never affect gradients)
+        valid = sender_ok.astype(attn.dtype)
+        raw_align_l2 = jnp.sum(dist * valid) / (jnp.sum(valid) + 1e-8)
+        sel_probs = jax.nn.softmax(sel_logits, axis=-1)
+        token_entropy = jnp.mean(
+            -jnp.sum(sel_probs * jnp.log(sel_probs + 1e-8), axis=-1)
+        )
+        attention_entropy = jnp.mean(
+            -jnp.sum(attn * jnp.log(attn + 1e-8), axis=-1)
+        )
+        self_attention = jnp.mean(jnp.diagonal(attn))
+        comm_norm = jnp.mean(jnp.linalg.norm(comm_ctx, axis=-1))
+        diagnostics = jax.lax.stop_gradient(
+            {
+                "raw_align_l2": raw_align_l2,
+                "token_entropy": token_entropy,
+                "attention_entropy": attention_entropy,
+                "self_attention": self_attention,
+                "comm_norm": comm_norm,
+            }
+        )
+
+        return (
+            new_hidden,
+            signature,
+            codebook,
+            onehot,
+            action_logits,
+            aux_loss,
+            comm_ctx,
+            diagnostics,
+        )

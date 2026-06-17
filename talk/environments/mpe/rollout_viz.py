@@ -362,7 +362,7 @@ def run_talk_codebook_eval_rollout(
         agent_obs = obs[:, :obs_dim]
         (key, key_msg) = jax.random.split(key)
         msg_keys = jax.random.split(key_msg, num_agents)
-        (hidden, sig, cb, onehot, logits, _aux, _comm) = actor.apply(
+        (hidden, sig, cb, onehot, logits, _aux, _comm, _diag) = actor.apply(
             params,
             hidden,
             agent_obs,

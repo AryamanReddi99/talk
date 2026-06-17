@@ -1,0 +1,3 @@
+- aux_coef=0.1
+- codebook_size=1
+- talk_config=_1_code_0.1_h_aux

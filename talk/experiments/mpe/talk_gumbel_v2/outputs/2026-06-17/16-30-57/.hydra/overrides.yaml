@@ -1,0 +1,5 @@
+- gumbel_tau=0.01
+- codebook_size=8
+- aux_coef=0.01
+- sight_range=1.5
+- talk_config=_8_code_0.01_h_aux_1.5_sr_0.01_gt

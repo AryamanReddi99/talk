@@ -1,0 +1,7 @@
+- use_wandb=true
+- log_rollout_videos=false
+- num_seeds=1
+- num_envs=8
+- num_steps_per_env_per_update=8
+- total_timesteps=256
+- num_minibatches=2

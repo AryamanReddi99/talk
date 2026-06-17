@@ -1,0 +1,4 @@
+- aux_coef=0.012
+- codebook_size=8
+- sight_range=-1.0
+- talk_config=_8_code_0.012_h_aux
