@@ -16,7 +16,7 @@ fc_dim_size: 128
 gru_hidden_size: 128
 
 # Mordatch message dims
-vocab_size: 16           # V: discrete symbol vocabulary size
+vocab_size: 32           # V: discrete symbol vocabulary size
 msg_hidden_size: 64      # Hmsg: per-sender receive-GRU hidden size
 gumbel_tau: 1.0          # Gumbel-softmax temperature (faithful: fixed 1.0)
 obs_pred_coef: 1.0       # weight on masked private-obs prediction grounding loss

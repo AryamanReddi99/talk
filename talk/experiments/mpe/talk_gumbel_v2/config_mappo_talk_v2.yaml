@@ -17,7 +17,7 @@ gru_hidden_size: 128
 
 # Talk-Codebook message dims
 sig_dim: 16              # query / key (signature) dim
-codebook_size: 1         # M: number of codebook slots per agent
+codebook_size: 32         # M: number of codebook slots per agent
 vocab_dim: 32            # d_vocab: dimensionality of each codebook vector (comm value dim)
 gumbel_tau: 1.0          # ST-Gumbel temperature for codebook-index selection
 aux_coef: 0.0            # weight on the codebook-alignment auxiliary loss
