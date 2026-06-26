@@ -28,6 +28,7 @@ evaluation/
 
 # Wandb
 wandb/
+outputs/
 
 # VSCode
 .vscode
