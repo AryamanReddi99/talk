@@ -1,0 +1,52 @@
+# Team-shared MAPPO + Mordatch-style discrete communication on JaxMARL MPE
+total_timesteps: 1.0e7
+num_envs: 128
+num_steps_per_env_per_update: 64
+num_epochs: 4
+num_minibatches: 4
+
+gamma: 0.99
+gae_lambda: 0.95
+clip_eps: 0.2
+scale_clip_eps: false
+ent_coef: 0.01
+vf_coef: 0.5
+activation: relu
+fc_dim_size: 128
+gru_hidden_size: 128
+
+# Mordatch message dims
+vocab_size: 16           # V: discrete symbol vocabulary size
+msg_hidden_size: 64      # Hmsg: per-sender receive-GRU hidden size
+gumbel_tau: 1.0          # Gumbel-softmax temperature (faithful: fixed 1.0)
+obs_pred_coef: 1.0       # weight on masked private-obs prediction grounding loss
+word_coef: 0.0           # weight on marginal-entropy sparsity penalty (opt-in)
+eval_every: 1            # run the deterministic-message test-return rollout every N updates
+trajectory_scan_unroll: 8
+
+# -1 = unlimited ally comm; otherwise Euclidean radius in MPE world units
+comm_range: -1
+
+lr_actor: 5.0e-4
+lr_critic: 1.0e-3
+anneal_lr: true
+max_grad_norm: 0.5
+
+seed: 0
+num_seeds: 3
+
+project: talk
+environment: mpe
+env_name: MPE_simple_spread_v3
+env_kwargs: {}
+num_agents: null
+sight_range: -1.0
+algorithm: mappo_mordatch_mpe
+custom_name: "_new_mpe"
+talk_config: ""
+use_wandb: true
+
+log_rollout_videos: true
+log_rollout_fractions: [0.0, 0.33, 0.66, 1.0]
+rollout_length_multiplier: 1.0
+rollout_eval_seed: 0
