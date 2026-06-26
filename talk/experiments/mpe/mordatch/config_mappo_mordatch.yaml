@@ -16,10 +16,10 @@ fc_dim_size: 128
 gru_hidden_size: 128
 
 # Mordatch message dims
-vocab_size: 32           # V: discrete symbol vocabulary size
-msg_hidden_size: 64      # Hmsg: per-sender receive-GRU hidden size
+vocab_size: 16          # V: discrete symbol vocabulary size
+msg_hidden_size: 32      # Hmsg: per-sender receive-GRU hidden size
 gumbel_tau: 1.0          # Gumbel-softmax temperature (faithful: fixed 1.0)
-obs_pred_coef: 1.0       # weight on masked private-obs prediction grounding loss
+obs_pred_coef: 0.1       # weight on masked private-obs prediction grounding loss
 word_coef: 0.0           # weight on marginal-entropy sparsity penalty (opt-in)
 eval_every: 1            # run the deterministic-message test-return rollout every N updates
 trajectory_scan_unroll: 8
